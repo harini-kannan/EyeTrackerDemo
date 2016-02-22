@@ -45,6 +45,10 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
     // Properties that will be initialized in viewDidLoad.
     var eyeCaptureSession: EyeCaptureSession!
     var statusTimer: NSTimer!
+
+    var circleTimer: NSTimer?
+    let redLayer = CALayer()
+    let circleRadius = CGFloat(25)
     
     // MARK: - EyeCaptureSessionDelegate Methods
     func processFace(ff: FaceFrame) {
@@ -280,6 +284,8 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
         // Eye boxes will be relative to the face.
         faceLayer.addSublayer(leftEyeLayer)
         faceLayer.addSublayer(rightEyeLayer)
+        
+        setup()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -309,7 +315,57 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+
+    func setup() {
+        
+        redLayer.frame = CGRect(x: 50, y: 50, width: 50, height: 50)
+        redLayer.backgroundColor = UIColor.redColor().CGColor
+        
+        // Round corners
+        redLayer.cornerRadius = circleRadius
+        
+        // Set border
+        redLayer.borderColor = UIColor.blackColor().CGColor
+        redLayer.borderWidth = 10
+        
+        redLayer.shadowColor = UIColor.blackColor().CGColor
+        redLayer.shadowOpacity = 0.8
+        redLayer.shadowOffset = CGSizeMake(2, 2)
+        redLayer.shadowRadius = 3
+        
+        self.videoView.layer.addSublayer(redLayer)
+        
+        
+        // Create a blank animation using the keyPath "cornerRadius", the property we want to animate
+        let animation = CABasicAnimation(keyPath: "shadowRadius")
+        
+        // Set the starting value
+        animation.fromValue = redLayer.cornerRadius
+        
+        // Set the completion value
+        animation.toValue = 0
+        
+        // How may times should the animation repeat?
+        animation.repeatCount = 1000
+        
+        // Finally, add the animation to the layer
+        redLayer.addAnimation(animation, forKey: "cornerRadius")
+        
+        circleTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("randomizeCirclePosition"), userInfo: nil, repeats: true)
+    }
     
+    func randomizeCirclePosition() {
+        let preferredMinX = self.view.bounds.minX + self.circleRadius * 2
+        let preferredMaxX = self.view.bounds.maxX - self.circleRadius * 2
+        let preferredMinY = self.view.bounds.minY + self.circleRadius * 2
+        let preferredMaxY = self.view.bounds.maxY - self.circleRadius * 2
+        
+        let randomX = CGFloat(arc4random_uniform(UInt32(preferredMaxX - preferredMinX))) + preferredMinX
+        let randomY = CGFloat(arc4random_uniform(UInt32(preferredMaxY - preferredMinY))) + preferredMinY
+        
+        let point = CGPoint(x: randomX, y: randomY)
+        self.redLayer.animateToPosition(point)
+    }
 }
 
 

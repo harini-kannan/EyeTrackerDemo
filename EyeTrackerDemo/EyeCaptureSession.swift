@@ -576,9 +576,9 @@ class EyeCaptureSession: NSObject, AVCaptureMetadataOutputObjectsDelegate, AVCap
         frameOutput.alwaysDiscardsLateVideoFrames = true  // Discard if the data output queue is blocked.
         
         // Set up the videoPreviewLayer, whether it is displayed or not.
-        self.videoPreviewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
-        self.videoPreviewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
-        setUpVideoView()
+        //self.videoPreviewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
+        //self.videoPreviewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
+        //setUpVideoView()
         
         self.captureSession.startRunning()
     }
