@@ -7,12 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		03C4E9721BB5FC4EA2A6E154 /* libPods-EyeTrackerDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8276464BE9067ED644EEBF82 /* libPods-EyeTrackerDemo.a */; };
 		875AF21C1C769116005FE004 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875AF21B1C769116005FE004 /* AppDelegate.swift */; };
 		875AF21E1C769117005FE004 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875AF21D1C769117005FE004 /* ViewController.swift */; };
 		875AF2211C769117005FE004 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 875AF21F1C769117005FE004 /* Main.storyboard */; };
 		875AF2231C769117005FE004 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 875AF2221C769117005FE004 /* Assets.xcassets */; };
 		875AF2261C769117005FE004 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 875AF2241C769117005FE004 /* LaunchScreen.storyboard */; };
 		875AF2311C769117005FE004 /* EyeTrackerDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875AF2301C769117005FE004 /* EyeTrackerDemoTests.swift */; };
+		875AF23C1C7699BC005FE004 /* EyeCaptureSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875AF23B1C7699BC005FE004 /* EyeCaptureSession.swift */; };
+		875AF23E1C7699F9005FE004 /* EyeCaptureSessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875AF23D1C7699F9005FE004 /* EyeCaptureSessionDelegate.swift */; };
+		875AF2401C769A2B005FE004 /* FaceFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875AF23F1C769A2B005FE004 /* FaceFrame.swift */; };
+		875AF2431C769B2A005FE004 /* CGRect+CoordinateTransforms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875AF2421C769B2A005FE004 /* CGRect+CoordinateTransforms.swift */; };
+		875AF2451C769E58005FE004 /* CALayer+Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875AF2441C769E58005FE004 /* CALayer+Animation.swift */; };
+		8774943C1C7A4FFE00255376 /* UIImage+OpenCV.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8774943B1C7A4FFE00255376 /* UIImage+OpenCV.mm */; };
+		87B41EB81C7A8460006C5CB2 /* haarcascade_eye.xml in Resources */ = {isa = PBXBuildFile; fileRef = 87B41EB71C7A8460006C5CB2 /* haarcascade_eye.xml */; };
+		87BE31A51C7906EB0002C597 /* OpenCVUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 87BE31A31C7906EB0002C597 /* OpenCVUtilities.cpp */; };
+		87BE31A71C790E500002C597 /* FPSQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BE31A61C790E500002C597 /* FPSQueue.swift */; };
+		87BE31AD1C7A45FD0002C597 /* CVEyeDetector.mm in Sources */ = {isa = PBXBuildFile; fileRef = 87BE31AB1C7A45FD0002C597 /* CVEyeDetector.mm */; };
+		87BE31AE1C7A45FD0002C597 /* KalmanFilter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 87BE31AC1C7A45FD0002C597 /* KalmanFilter.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,6 +38,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		50C2043E74C39FE5EB60CC4B /* Pods-EyeTrackerDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EyeTrackerDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-EyeTrackerDemo/Pods-EyeTrackerDemo.release.xcconfig"; sourceTree = "<group>"; };
+		8276464BE9067ED644EEBF82 /* libPods-EyeTrackerDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EyeTrackerDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		875AF2181C769116005FE004 /* EyeTrackerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EyeTrackerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		875AF21B1C769116005FE004 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		875AF21D1C769117005FE004 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -36,6 +50,23 @@
 		875AF22C1C769117005FE004 /* EyeTrackerDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EyeTrackerDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		875AF2301C769117005FE004 /* EyeTrackerDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyeTrackerDemoTests.swift; sourceTree = "<group>"; };
 		875AF2321C769117005FE004 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		875AF23B1C7699BC005FE004 /* EyeCaptureSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EyeCaptureSession.swift; sourceTree = "<group>"; };
+		875AF23D1C7699F9005FE004 /* EyeCaptureSessionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EyeCaptureSessionDelegate.swift; sourceTree = "<group>"; };
+		875AF23F1C769A2B005FE004 /* FaceFrame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FaceFrame.swift; sourceTree = "<group>"; };
+		875AF2421C769B2A005FE004 /* CGRect+CoordinateTransforms.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGRect+CoordinateTransforms.swift"; sourceTree = "<group>"; };
+		875AF2441C769E58005FE004 /* CALayer+Animation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CALayer+Animation.swift"; sourceTree = "<group>"; };
+		8774943A1C7A4FC400255376 /* UIImage+OpenCV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+OpenCV.h"; sourceTree = "<group>"; };
+		8774943B1C7A4FFE00255376 /* UIImage+OpenCV.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "UIImage+OpenCV.mm"; sourceTree = "<group>"; };
+		87B41EB71C7A8460006C5CB2 /* haarcascade_eye.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = haarcascade_eye.xml; path = EyeTrackerDemo/haarcascade_eye.xml; sourceTree = "<group>"; };
+		87BE319F1C78DB140002C597 /* KalmanFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KalmanFilter.h; sourceTree = "<group>"; };
+		87BE31A01C78DB720002C597 /* EyeTrackerDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EyeTrackerDemo-Bridging-Header.h"; sourceTree = "<group>"; };
+		87BE31A31C7906EB0002C597 /* OpenCVUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenCVUtilities.cpp; sourceTree = "<group>"; };
+		87BE31A41C7906EB0002C597 /* OpenCVUtilities.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = OpenCVUtilities.hpp; sourceTree = "<group>"; };
+		87BE31A61C790E500002C597 /* FPSQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPSQueue.swift; sourceTree = "<group>"; };
+		87BE31AA1C790EB80002C597 /* CVEyeDetector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CVEyeDetector.h; sourceTree = "<group>"; };
+		87BE31AB1C7A45FD0002C597 /* CVEyeDetector.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CVEyeDetector.mm; sourceTree = "<group>"; };
+		87BE31AC1C7A45FD0002C597 /* KalmanFilter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = KalmanFilter.mm; sourceTree = "<group>"; };
+		95B4DD8AC7AAF82C75014B79 /* Pods-EyeTrackerDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EyeTrackerDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EyeTrackerDemo/Pods-EyeTrackerDemo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03C4E9721BB5FC4EA2A6E154 /* libPods-EyeTrackerDemo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,12 +88,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A581CAD83AEDCC62418BB4A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8276464BE9067ED644EEBF82 /* libPods-EyeTrackerDemo.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		25F81044D786CBE01693DC85 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				95B4DD8AC7AAF82C75014B79 /* Pods-EyeTrackerDemo.debug.xcconfig */,
+				50C2043E74C39FE5EB60CC4B /* Pods-EyeTrackerDemo.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		875AF20F1C769116005FE004 = {
 			isa = PBXGroup;
 			children = (
+				87B41EB71C7A8460006C5CB2 /* haarcascade_eye.xml */,
 				875AF21A1C769116005FE004 /* EyeTrackerDemo */,
 				875AF22F1C769117005FE004 /* EyeTrackerDemoTests */,
 				875AF2191C769116005FE004 /* Products */,
+				25F81044D786CBE01693DC85 /* Pods */,
+				0A581CAD83AEDCC62418BB4A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -77,12 +129,27 @@
 		875AF21A1C769116005FE004 /* EyeTrackerDemo */ = {
 			isa = PBXGroup;
 			children = (
+				87BE31AB1C7A45FD0002C597 /* CVEyeDetector.mm */,
+				87BE31AC1C7A45FD0002C597 /* KalmanFilter.mm */,
+				875AF2421C769B2A005FE004 /* CGRect+CoordinateTransforms.swift */,
+				87BE319F1C78DB140002C597 /* KalmanFilter.h */,
+				87BE31A31C7906EB0002C597 /* OpenCVUtilities.cpp */,
+				87BE31A41C7906EB0002C597 /* OpenCVUtilities.hpp */,
+				875AF2441C769E58005FE004 /* CALayer+Animation.swift */,
 				875AF21B1C769116005FE004 /* AppDelegate.swift */,
 				875AF21D1C769117005FE004 /* ViewController.swift */,
+				875AF23F1C769A2B005FE004 /* FaceFrame.swift */,
+				875AF23B1C7699BC005FE004 /* EyeCaptureSession.swift */,
+				875AF23D1C7699F9005FE004 /* EyeCaptureSessionDelegate.swift */,
 				875AF21F1C769117005FE004 /* Main.storyboard */,
 				875AF2221C769117005FE004 /* Assets.xcassets */,
 				875AF2241C769117005FE004 /* LaunchScreen.storyboard */,
 				875AF2271C769117005FE004 /* Info.plist */,
+				87BE31A01C78DB720002C597 /* EyeTrackerDemo-Bridging-Header.h */,
+				87BE31A61C790E500002C597 /* FPSQueue.swift */,
+				87BE31AA1C790EB80002C597 /* CVEyeDetector.h */,
+				8774943A1C7A4FC400255376 /* UIImage+OpenCV.h */,
+				8774943B1C7A4FFE00255376 /* UIImage+OpenCV.mm */,
 			);
 			path = EyeTrackerDemo;
 			sourceTree = "<group>";
@@ -103,9 +170,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 875AF2351C769117005FE004 /* Build configuration list for PBXNativeTarget "EyeTrackerDemo" */;
 			buildPhases = (
+				AAB4DB3F42142A5F7A8CD88A /* Check Pods Manifest.lock */,
 				875AF2141C769116005FE004 /* Sources */,
 				875AF2151C769116005FE004 /* Frameworks */,
 				875AF2161C769116005FE004 /* Resources */,
+				61EE48C37AA448EB2D03739D /* Embed Pods Frameworks */,
+				2E3DB9085099AB5D2AEA6BBA /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -179,6 +249,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				87B41EB81C7A8460006C5CB2 /* haarcascade_eye.xml in Resources */,
 				875AF2261C769117005FE004 /* LaunchScreen.storyboard in Resources */,
 				875AF2231C769117005FE004 /* Assets.xcassets in Resources */,
 				875AF2211C769117005FE004 /* Main.storyboard in Resources */,
@@ -194,12 +265,70 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		2E3DB9085099AB5D2AEA6BBA /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EyeTrackerDemo/Pods-EyeTrackerDemo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		61EE48C37AA448EB2D03739D /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EyeTrackerDemo/Pods-EyeTrackerDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AAB4DB3F42142A5F7A8CD88A /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		875AF2141C769116005FE004 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				875AF23E1C7699F9005FE004 /* EyeCaptureSessionDelegate.swift in Sources */,
+				875AF23C1C7699BC005FE004 /* EyeCaptureSession.swift in Sources */,
+				87BE31AE1C7A45FD0002C597 /* KalmanFilter.mm in Sources */,
+				87BE31AD1C7A45FD0002C597 /* CVEyeDetector.mm in Sources */,
+				8774943C1C7A4FFE00255376 /* UIImage+OpenCV.mm in Sources */,
+				875AF2431C769B2A005FE004 /* CGRect+CoordinateTransforms.swift in Sources */,
+				87BE31A51C7906EB0002C597 /* OpenCVUtilities.cpp in Sources */,
 				875AF21E1C769117005FE004 /* ViewController.swift in Sources */,
+				875AF2401C769A2B005FE004 /* FaceFrame.swift in Sources */,
+				87BE31A71C790E500002C597 /* FPSQueue.swift in Sources */,
+				875AF2451C769E58005FE004 /* CALayer+Animation.swift in Sources */,
 				875AF21C1C769116005FE004 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -327,23 +456,32 @@
 		};
 		875AF2361C769117005FE004 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 95B4DD8AC7AAF82C75014B79 /* Pods-EyeTrackerDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = EyeTrackerDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.EyeTrackerDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "EyeTrackerDemo/EyeTrackerDemo-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		875AF2371C769117005FE004 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 50C2043E74C39FE5EB60CC4B /* Pods-EyeTrackerDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = EyeTrackerDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.EyeTrackerDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "EyeTrackerDemo/EyeTrackerDemo-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -390,6 +528,7 @@
 				875AF2371C769117005FE004 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		875AF2381C769117005FE004 /* Build configuration list for PBXNativeTarget "EyeTrackerDemoTests" */ = {
 			isa = XCConfigurationList;
@@ -398,6 +537,7 @@
 				875AF23A1C769117005FE004 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
