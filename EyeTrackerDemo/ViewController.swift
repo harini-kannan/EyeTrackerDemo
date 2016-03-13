@@ -317,6 +317,7 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
     }
 
     func setup() {
+        TestNtwkFile.testNtwkFile()
         
         redLayer.frame = CGRect(x: 50, y: 50, width: 50, height: 50)
         redLayer.backgroundColor = UIColor.redColor().CGColor
