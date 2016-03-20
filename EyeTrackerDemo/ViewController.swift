@@ -260,6 +260,8 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
         if self.eyeCaptureSession.debugView != nil {
             self.eyeCaptureSession.debugView = nil
             self.debugView.hidden = true
+            setup()
+            print(self.leftEyeView.image!.size.height)
         } else {
             self.eyeCaptureSession.debugView = self.debugView
             self.debugView.hidden = false
@@ -285,7 +287,7 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
         faceLayer.addSublayer(leftEyeLayer)
         faceLayer.addSublayer(rightEyeLayer)
         
-        setup()
+//        setup()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -295,6 +297,7 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
         // the segmented controller here just in case.
         didChangeDetector(self.detectorSegmentedControl)
         statusTimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: Selector("updateStatus"), userInfo: nil, repeats: true)
+        
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -360,6 +363,18 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
         let preferredMaxX = self.view.bounds.maxX - self.circleRadius * 2
         let preferredMinY = self.view.bounds.minY + self.circleRadius * 2
         let preferredMaxY = self.view.bounds.maxY - self.circleRadius * 2
+        
+        print("minX")
+        print(self.view.bounds.minX)
+        
+        print("maxX")
+        print(self.view.bounds.maxX)
+        
+        print("minY")
+        print(self.view.bounds.minY)
+        
+        print("maxY")
+        print(self.view.bounds.maxY)
         
         let randomX = CGFloat(arc4random_uniform(UInt32(preferredMaxX - preferredMinX))) + preferredMinX
         let randomY = CGFloat(arc4random_uniform(UInt32(preferredMaxY - preferredMinY))) + preferredMinY

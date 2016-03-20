@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <DeepBelief/DeepBelief.h>
+#import <UIKit/UIKit.h>
 
 #ifndef Header_h
 #define Header_h

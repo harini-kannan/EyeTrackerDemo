@@ -50,6 +50,10 @@ import UIKit
 /// is much faster.
 class EyeCaptureSession: NSObject, AVCaptureMetadataOutputObjectsDelegate, AVCaptureVideoDataOutputSampleBufferDelegate {  // We must inherit from NSObject to implement the AV protocols.
     
+    var circleTimer: NSTimer?
+    let redLayer = CALayer()
+    let circleRadius = CGFloat(25)
+    
     // Delegate.
     var delegate: EyeCaptureSessionDelegate?
     
@@ -722,10 +726,10 @@ class EyeCaptureSession: NSObject, AVCaptureMetadataOutputObjectsDelegate, AVCap
                         x: bestFace.rightEyePosition.x - boxSizeHalf,
                         y: faceHeightResized - (bestFace.rightEyePosition.y - boxSizeHalf) - boxSize,  // Flip y-axis for drawing in UIKit.
                         width: boxSize, height: boxSize)
-                    let rightEyeRectDebug = CGRect(
-                        x: bestFace.leftEyePosition.x - boxSizeHalf,
-                        y: faceHeightResized - (bestFace.leftEyePosition.y - boxSizeHalf) - boxSize,
-                        width: boxSize, height: boxSize)
+//                    let rightEyeRectDebug = CGRect(
+//                        x: bestFace.leftEyePosition.x - boxSizeHalf,
+//                        y: faceHeightResized - (bestFace.leftEyePosition.y - boxSizeHalf) - boxSize,
+//                        width: boxSize, height: boxSize)
                     
                     var firstDebugImage = UIImage(CGImage: self.faceImageContext.createCGImage(faceImageResized, fromRect: faceImageResized.extent))
                     
@@ -734,17 +738,21 @@ class EyeCaptureSession: NSObject, AVCaptureMetadataOutputObjectsDelegate, AVCap
                     // Create a new image based on the imageRef and rotate back to the original orientation
                     var debugImage: UIImage = UIImage(CGImage: imageRef)
                     
+//                    print("HELLO")
+//                    print(debugImage.size.height)
+//                    print(debugImage.size.width)
+                    
                     
                     // Draw the boxes directly onto the image.
-                    UIGraphicsBeginImageContext(debugImage.size)
-                    debugImage.drawAtPoint(CGPointZero)
-                    let ctx = UIGraphicsGetCurrentContext()
-                    UIColor.greenColor().setStroke()
+                    //UIGraphicsBeginImageContext(debugImage.size)
+                    //debugImage.drawAtPoint(CGPointZero)
+                    //let ctx = UIGraphicsGetCurrentContext()
+                    //UIColor.greenColor().setStroke()
                     // Left and right are swapped, as described below.
-                    CGContextStrokeRectWithWidth(ctx, leftEyeRectDebug, 1.0)
-                    CGContextStrokeRectWithWidth(ctx, rightEyeRectDebug, 1.0)
-                    debugImage = UIGraphicsGetImageFromCurrentImageContext()
-                    UIGraphicsEndImageContext()
+                    //CGContextStrokeRectWithWidth(ctx, leftEyeRectDebug, 1.0)
+                    //CGContextStrokeRectWithWidth(ctx, rightEyeRectDebug, 1.0)
+                    //debugImage = UIGraphicsGetImageFromCurrentImageContext()
+                    //UIGraphicsEndImageContext()
                     dispatch_async(dispatch_get_main_queue()) {
                         leftEyeView.image = debugImage
                     }
@@ -807,7 +815,65 @@ class EyeCaptureSession: NSObject, AVCaptureMetadataOutputObjectsDelegate, AVCap
         leftEyeRect.origin = leftEyePoint
         rightEyeRect.origin = rightEyePoint
         
+        setup()
         return (leftEyeRect, rightEyeRect, leftEyeClosed, rightEyeClosed)
+    }
+
+    func setup() {
+        TestNtwkFile.testNtwkFile()
+        
+        redLayer.frame = CGRect(x: 50, y: 50, width: 50, height: 50)
+        redLayer.backgroundColor = UIColor.redColor().CGColor
+        
+        // Round corners
+        redLayer.cornerRadius = circleRadius
+        
+        // Set border
+        redLayer.borderColor = UIColor.blackColor().CGColor
+        redLayer.borderWidth = 10
+        
+        redLayer.shadowColor = UIColor.blackColor().CGColor
+        redLayer.shadowOpacity = 0.8
+        redLayer.shadowOffset = CGSizeMake(2, 2)
+        redLayer.shadowRadius = 3
+        
+        self.videoView!.layer.addSublayer(redLayer)
+        
+        
+        // Create a blank animation using the keyPath "cornerRadius", the property we want to animate
+        let animation = CABasicAnimation(keyPath: "shadowRadius")
+        
+        // Set the starting value
+        animation.fromValue = redLayer.cornerRadius
+        
+        // Set the completion value
+        animation.toValue = 0
+        
+        // How may times should the animation repeat?
+        animation.repeatCount = 1000
+        
+        // Finally, add the animation to the layer
+        redLayer.addAnimation(animation, forKey: "cornerRadius")
+        
+        circleTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("randomizeCirclePosition"), userInfo: nil, repeats: true)
+    }
+    
+    func randomizeCirclePosition() {
+        let minX = 0
+        let maxX = 375
+        let minY = 0
+        let maxY = 667
+        
+        let preferredMinX = CGFloat(minX) + self.circleRadius * 2
+        let preferredMaxX = CGFloat(maxX) - self.circleRadius * 2
+        let preferredMinY = CGFloat(minY) + self.circleRadius * 2
+        let preferredMaxY = CGFloat(maxY) - self.circleRadius * 2
+        
+        let randomX = CGFloat(arc4random_uniform(UInt32(preferredMaxX - preferredMinX))) + preferredMinX
+        let randomY = CGFloat(arc4random_uniform(UInt32(preferredMaxY - preferredMinY))) + preferredMinY
+        
+        let point = CGPoint(x: randomX, y: randomY)
+        self.redLayer.animateToPosition(point)
     }
     
     // TODO: Provide a concrete example in the documentation.
