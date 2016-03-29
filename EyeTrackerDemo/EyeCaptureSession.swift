@@ -815,7 +815,7 @@ class EyeCaptureSession: NSObject, AVCaptureMetadataOutputObjectsDelegate, AVCap
         leftEyeRect.origin = leftEyePoint
         rightEyeRect.origin = rightEyePoint
         
-        setup()
+        //setup()
         return (leftEyeRect, rightEyeRect, leftEyeClosed, rightEyeClosed)
     }
 

@@ -52,6 +52,8 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
     
     // MARK: - EyeCaptureSessionDelegate Methods
     func processFace(ff: FaceFrame) {
+        //print (leftEyeView.image!.size.width)
+        //randomizeCirclePosition()
         if ff.faceCrop != nil && ff.faceRect != nil && ff.fullFrameSize != nil {
             if let videoPreviewLayer = self.eyeCaptureSession?.videoPreviewLayer {
                 var faceRectDisp = ff.faceRect!
@@ -287,7 +289,7 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
         faceLayer.addSublayer(leftEyeLayer)
         faceLayer.addSublayer(rightEyeLayer)
         
-//        setup()
+        setup()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -355,7 +357,7 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
         // Finally, add the animation to the layer
         redLayer.addAnimation(animation, forKey: "cornerRadius")
         
-        circleTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("randomizeCirclePosition"), userInfo: nil, repeats: true)
+//        circleTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("randomizeCirclePosition"), userInfo: nil, repeats: true)
     }
     
     func randomizeCirclePosition() {
