@@ -50,10 +50,32 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
     let redLayer = CALayer()
     let circleRadius = CGFloat(25)
     
+    // From: http://iosdevcenters.blogspot.com/2015/12/how-to-resize-image-in-swift-in-ios.html
+    func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
+        let rect = CGRectMake(0, 0, targetSize.width, targetSize.height)
+        
+        // Actually do the resizing to the rect using the ImageContext stuff
+        UIGraphicsBeginImageContextWithOptions(targetSize, false, 1.0)
+        image.drawInRect(rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage
+    }
+    
     // MARK: - EyeCaptureSessionDelegate Methods
     func processFace(ff: FaceFrame) {
-        //print (leftEyeView.image!.size.width)
-        //randomizeCirclePosition()
+        if leftEyeView.image != nil && rightEyeView.image != nil && debugView.image != nil{
+            print ("PRINTING WIDTH")
+            let size = CGSize(width: 219, height: 219)
+            let resizedLeftEye = resizeImage(leftEyeView.image!, targetSize: size)
+            let resizedRightEye = resizeImage(rightEyeView.image!, targetSize: size)
+            let resizedFace = resizeImage(debugView.image!, targetSize: size)
+            print(leftEyeView.image!.size, resizedLeftEye.size)
+            print(rightEyeView.image!.size, resizedRightEye.size)
+            print(debugView.image!.size, resizedFace.size)
+        }
+//        randomizeCirclePosition()
+//        circleTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("randomizeCirclePosition"), userInfo: nil, repeats: true)
         if ff.faceCrop != nil && ff.faceRect != nil && ff.fullFrameSize != nil {
             if let videoPreviewLayer = self.eyeCaptureSession?.videoPreviewLayer {
                 var faceRectDisp = ff.faceRect!
@@ -225,7 +247,6 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
                 }
                 rightEyeTimeout = NSTimer.scheduledTimerWithTimeInterval(self.timeoutLength, target: self, selector: Selector("hideRightEyeBox"), userInfo: nil, repeats: false)
             }
-            
             CATransaction.commit()  // Done batching the UI updates together.
     }
     
@@ -288,7 +309,7 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
         // Eye boxes will be relative to the face.
         faceLayer.addSublayer(leftEyeLayer)
         faceLayer.addSublayer(rightEyeLayer)
-        
+
         setup()
     }
     
@@ -343,20 +364,23 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
         
         
         // Create a blank animation using the keyPath "cornerRadius", the property we want to animate
-        let animation = CABasicAnimation(keyPath: "shadowRadius")
+//        let animation = CABasicAnimation(keyPath: "shadowRadius")
+//        
+//        // Set the starting value
+//        animation.fromValue = redLayer.cornerRadius
+//        
+//        // Set the completion value
+//        animation.toValue = 0
+//        
+//        // How may times should the animation repeat?
+//        animation.repeatCount = 1000
+//        
+//        // Finally, add the animation to the layer
+//        redLayer.addAnimation(animation, forKey: "cornerRadius")
         
-        // Set the starting value
-        animation.fromValue = redLayer.cornerRadius
-        
-        // Set the completion value
-        animation.toValue = 0
-        
-        // How may times should the animation repeat?
-        animation.repeatCount = 1000
-        
-        // Finally, add the animation to the layer
-        redLayer.addAnimation(animation, forKey: "cornerRadius")
-        
+//        randomizeCirclePosition()
+//        randomizeCirclePosition()
+//        randomizeCirclePosition()
 //        circleTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("randomizeCirclePosition"), userInfo: nil, repeats: true)
     }
     
@@ -366,23 +390,27 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
         let preferredMinY = self.view.bounds.minY + self.circleRadius * 2
         let preferredMaxY = self.view.bounds.maxY - self.circleRadius * 2
         
-        print("minX")
-        print(self.view.bounds.minX)
-        
-        print("maxX")
-        print(self.view.bounds.maxX)
-        
-        print("minY")
-        print(self.view.bounds.minY)
-        
-        print("maxY")
-        print(self.view.bounds.maxY)
-        
         let randomX = CGFloat(arc4random_uniform(UInt32(preferredMaxX - preferredMinX))) + preferredMinX
         let randomY = CGFloat(arc4random_uniform(UInt32(preferredMaxY - preferredMinY))) + preferredMinY
         
         let point = CGPoint(x: randomX, y: randomY)
-        self.redLayer.animateToPosition(point)
+        
+        var toPoint: CGPoint = CGPointMake(randomX, randomY)
+        
+        print (toPoint.x, toPoint.y, redLayer.position, redLayer.cornerRadius)
+        self.redLayer.position = toPoint
+        
+//        var fromPoint : CGPoint = CGPointZero
+//        
+//        var movement = CABasicAnimation(keyPath: "movement")
+////        movement.additive = true
+////        movement.fromValue =  NSValue(CGPoint: self.redLayer.position)
+//        movement.toValue =  NSValue(CGPoint: toPoint)
+//        movement.duration = 0.3
+//        
+//        self.redLayer.addAnimation(movement, forKey: "position")
+        
+//        self.redLayer.animateToPosition(point)
     }
 }
 
