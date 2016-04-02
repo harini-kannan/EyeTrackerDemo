@@ -14,7 +14,7 @@
 @implementation TestNtwkFile {
 }
 
-+ (void)testNtwkFile {
++ (CGPoint)testNtwkFile:(UIImage*) leftEye secondImage:(UIImage*) rightEye thirdImage:(UIImage*) face{
 
         /* CONVERTING FROM JPG TO UIIMAGE */
 //    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -51,28 +51,31 @@
     }
     void* left_eye_network = jpcnn_create_network(219, [networkPath UTF8String]);
     assert(left_eye_network != NULL);
+
+    NSString *leftEyeByteArray = [UIImageJPEGRepresentation(leftEye, 1.0) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+
+    const unsigned char *leftEyeBaseAddress = (const unsigned char *) [leftEyeByteArray cStringUsingEncoding:NSASCIIStringEncoding];
+
+    void* inputImage = jpcnn_create_image_buffer_from_uint8_data(leftEyeBaseAddress, 32, 32, 3, 96, 0, 0);
     
-    NSString* imagePath = [[NSBundle mainBundle] pathForResource:@"test_left_eye219" ofType:@"jpg"]; //cifar10_1.jpg //test_left_eye219
-    
-    void* inputImage = jpcnn_create_image_buffer_from_file([imagePath UTF8String]);
+//    NSString* imagePath = [[NSBundle mainBundle] pathForResource:@"test_left_eye219" ofType:@"jpg"];
+//    void* inputImage = jpcnn_create_image_buffer_from_file([imagePath UTF8String]);
     
     float* LE_predictions;
     int LE_predictionsLength;
     char** LE_predictionsLabels;
     int LE_predictionsLabelsLength;
-    NSLog(@"BEFORE CLASSIFY IMAGE FOR LEFTEYE");
     jpcnn_classify_image(219, left_eye_network, inputImage, 0, 0, &LE_predictions, &LE_predictionsLength, &LE_predictionsLabels, &LE_predictionsLabelsLength);
 
 
     jpcnn_destroy_image_buffer(inputImage);
 
-    NSLog(@"\nLEFTEYE\n");
-    for (int index = 0; index < LE_predictionsLength; index += 1) {
-        const float predictionValue = LE_predictions[index];
-        char* label = LE_predictionsLabels[index % LE_predictionsLabelsLength];
-        NSString* predictionLine = [NSString stringWithFormat: @"%0.2f\n", predictionValue];
-        NSLog(@"%@", predictionLine);
-    }
+//    for (int index = 0; index < LE_predictionsLength; index += 1) {
+//        const float predictionValue = LE_predictions[index];
+//        char* label = LE_predictionsLabels[index % LE_predictionsLabelsLength];
+//        NSString* predictionLine = [NSString stringWithFormat: @"%0.2f\n", predictionValue];
+//        NSLog(@"%@", predictionLine);
+//    }
     
     //jpcnn_destroy_network(network);
     
@@ -95,10 +98,16 @@
     }
     void* right_eye_network = jpcnn_create_network(219, [networkPath UTF8String]);
     assert(right_eye_network != NULL);
+
+    NSString *rightEyeByteArray = [UIImageJPEGRepresentation(leftEye, 1.0) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
     
-    imagePath = [[NSBundle mainBundle] pathForResource:@"test_right_eye219" ofType:@"jpg"]; //cifar10_1.jpg
+    const unsigned char *rightEyeBaseAddress = (const unsigned char *) [rightEyeByteArray cStringUsingEncoding:NSASCIIStringEncoding];
     
-    inputImage = jpcnn_create_image_buffer_from_file([imagePath UTF8String]);
+    inputImage = jpcnn_create_image_buffer_from_uint8_data(rightEyeBaseAddress, 32, 32, 3, 96, 0, 0);
+    
+//    imagePath = [[NSBundle mainBundle] pathForResource:@"test_right_eye219" ofType:@"jpg"]; //cifar10_1.jpg
+//    
+//    inputImage = jpcnn_create_image_buffer_from_file([imagePath UTF8String]);
     
     float* RE_predictions;
     int RE_predictionsLength;
@@ -129,9 +138,15 @@
     void* face_network = jpcnn_create_network(219, [networkPath UTF8String]);
     assert(face_network != NULL);
     
-    imagePath = [[NSBundle mainBundle] pathForResource:@"test_face219" ofType:@"jpg"]; //cifar10_1.jpg
+//    imagePath = [[NSBundle mainBundle] pathForResource:@"test_face219" ofType:@"jpg"]; //cifar10_1.jpg
+//    
+//    inputImage = jpcnn_create_image_buffer_from_file([imagePath UTF8String]);
+
+    NSString *faceByteArray = [UIImageJPEGRepresentation(leftEye, 1.0) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
     
-    inputImage = jpcnn_create_image_buffer_from_file([imagePath UTF8String]);
+    const unsigned char *faceBaseAddress = (const unsigned char *) [faceByteArray cStringUsingEncoding:NSASCIIStringEncoding];
+    
+    inputImage = jpcnn_create_image_buffer_from_uint8_data(faceBaseAddress, 32, 32, 3, 96, 0, 0);
     
     float* F_predictions;
     int F_predictionsLength;
@@ -141,7 +156,6 @@
     
     
     jpcnn_destroy_image_buffer(inputImage);
-    NSLog(@"FACE");
     
 //    for (int index = 0; index < F_predictionsLength; index += 1) {
 //        const float predictionValue = F_predictions[index];
@@ -155,7 +169,9 @@
     
     // BEGIN: FACEGRID
     
-    float weights1[625*256];
+//    float weights1[625*256];
+    float *weights1 = malloc(sizeof(float) * 625 * 256);
+//    float *final_weights1 = malloc(sizeof(float) * 320*128);
     float bias1[256];
     float input[625];
 
@@ -190,11 +206,13 @@
     
     nse = [lines objectEnumerator];
     i = 0;
-    while(tmp = [nse nextObject]) {
+
+    while(i < 625*256) {
+        tmp = [nse nextObject];
         weights1[i] = [tmp floatValue];
         i++;
     }
-
+    
     textPath = [[NSBundle mainBundle] pathForResource:@"facegrid_weights2" ofType:@"txt"];
     lines = [[NSString stringWithContentsOfFile:textPath] componentsSeparatedByString:@"\n"];
     
@@ -222,13 +240,12 @@
     int FG_predictionsLabelsLength;
 
     jpcnn_classify_image_2FC(&FG_predictions, &FG_predictionsLength, 625, 256, weights1, 1, 256, bias1, 1, 625, input, 256, 128, weights2, 1, 128, bias2);
-    NSLog(@"FACEGRID");
     
-    for (int index = 0; index < FG_predictionsLength; index += 1) {
-        const float predictionValue = FG_predictions[index];
-        NSString* predictionLine = [NSString stringWithFormat: @"%0.2f\n", predictionValue];
-        NSLog(@"%@", predictionLine);
-    }
+//    for (int index = 0; index < FG_predictionsLength; index += 1) {
+//        const float predictionValue = FG_predictions[index];
+//        NSString* predictionLine = [NSString stringWithFormat: @"%0.2f\n", predictionValue];
+//        NSLog(@"%@", predictionLine);
+//    }
     // END: FACEGRID
     
     // BEGIN: EYES CONCAT
@@ -350,30 +367,6 @@
     float* final_predictions;
     int final_predictionsLength;
     
-    for (int index = 0; index < eyes_predictionsLength; index += 1) {
-        const float predictionValue = eyes_predictions[index];
-        NSString* predictionLine = [NSString stringWithFormat: @"%0.2f\n", predictionValue];
-        NSLog(@"%@", predictionLine);
-    }
-
-//    for (int index = 0; index < FG_predictionsLength; index += 1) {
-//        const float predictionValue = FG_predictions[index];
-//        NSString* predictionLine = [NSString stringWithFormat: @"%0.2f\n", predictionValue];
-//        NSLog(@"%@", predictionLine);
-//    }
-    
-//    for (int index = 0; index < F_predictionsLength; index += 1) {
-//        const float predictionValue = F_predictions[index];
-//        char* label = F_predictionsLabels[index % F_predictionsLabelsLength];
-//        NSString* predictionLine = [NSString stringWithFormat: @"%s - %0.2f\n", label, predictionValue];
-//        NSLog(@"%@", predictionLine);
-//    }
-//    i = 0;
-//    while(i < 320*128) {
-//        NSLog(@"%d, %f", i, final_weights1[i]);
-//        i++;
-//    }
-    
     jpcnn_concat_final(&final_predictions, &final_predictionsLength, 320, 128, final_weights1, 1, 128, final_bias1, 128, 2, final_weights2, 1, 2, final_bias2, 1, 320, eyes_predictions, FG_predictions, F_predictions);
     
     for (int index = 0; index < final_predictionsLength; index += 1) {
@@ -381,10 +374,13 @@
         NSString* predictionLine = [NSString stringWithFormat: @"%0.2f\n", predictionValue];
         NSLog(@"%@", predictionLine);
     }
+    CGPoint pp = CGPointMake(final_predictions[0], final_predictions[1]);
+    free(weights1);
     free(final_weights1);
     jpcnn_destroy_network(face_network);
     jpcnn_destroy_network(left_eye_network);
     jpcnn_destroy_network(right_eye_network);
+    return pp;
     // END: FINAL CONCAT
 }
 @end

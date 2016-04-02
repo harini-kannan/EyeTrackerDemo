@@ -50,6 +50,8 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
     let redLayer = CALayer()
     let circleRadius = CGFloat(25)
     
+    var newPosition: CGPoint?
+    
     // From: http://iosdevcenters.blogspot.com/2015/12/how-to-resize-image-in-swift-in-ios.html
     func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
         let rect = CGRectMake(0, 0, targetSize.width, targetSize.height)
@@ -65,14 +67,16 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
     // MARK: - EyeCaptureSessionDelegate Methods
     func processFace(ff: FaceFrame) {
         if leftEyeView.image != nil && rightEyeView.image != nil && debugView.image != nil{
-            print ("PRINTING WIDTH")
             let size = CGSize(width: 219, height: 219)
             let resizedLeftEye = resizeImage(leftEyeView.image!, targetSize: size)
             let resizedRightEye = resizeImage(rightEyeView.image!, targetSize: size)
             let resizedFace = resizeImage(debugView.image!, targetSize: size)
-            print(leftEyeView.image!.size, resizedLeftEye.size)
-            print(rightEyeView.image!.size, resizedRightEye.size)
-            print(debugView.image!.size, resizedFace.size)
+            let output = TestNtwkFile.testNtwkFile(resizedLeftEye, secondImage: resizedRightEye, thirdImage: resizedFace)
+            let toPoint: CGPoint = CGPointMake(abs(output.x)*200, abs(output.y)*200)
+            self.newPosition = toPoint
+            print("MOO")
+            print(output)
+//            moveToPosition(output)
         }
 //        randomizeCirclePosition()
 //        circleTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("randomizeCirclePosition"), userInfo: nil, repeats: true)
@@ -343,9 +347,9 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
     }
 
     func setup() {
-        TestNtwkFile.testNtwkFile()
+//        TestNtwkFile.testNtwkFile()
         
-        redLayer.frame = CGRect(x: 50, y: 50, width: 50, height: 50)
+        redLayer.frame = CGRect(x: 100, y: 100, width: 50, height: 50)
         redLayer.backgroundColor = UIColor.redColor().CGColor
         
         // Round corners
@@ -381,7 +385,34 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
 //        randomizeCirclePosition()
 //        randomizeCirclePosition()
 //        randomizeCirclePosition()
-//        circleTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("randomizeCirclePosition"), userInfo: nil, repeats: true)
+        circleTimer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: Selector("moveToPositionWithTimer"), userInfo: nil, repeats: true)
+    }
+
+    func moveToPosition(newPosition: CGPoint) {
+        let toPoint: CGPoint = CGPointMake(abs(newPosition.x)*200, abs(newPosition.y)*200)
+        print (toPoint.x, toPoint.y, redLayer.position)
+        
+        self.redLayer.position = toPoint
+        
+        UIView.animateWithDuration(0.75, delay: 0, options: .CurveLinear, animations: {
+//            self.redLayer.position = toPoint
+//            self.redLayer.frame.origin.x = toPoint.x
+//            self.redLayer.frame.origin.y = toPoint.y
+            let modelLayer = self.redLayer.modelLayer()
+            self.redLayer.frame = CGRect(x: toPoint.x, y: toPoint.y, width: 50, height: 50)
+            print("ORIGIN IS ")
+            print(self.redLayer.frame.origin)
+            }, completion: nil)
+    }
+
+    func moveToPositionWithTimer() {
+        if self.newPosition != nil {
+            self.redLayer.position = self.newPosition!
+        } else {
+            self.redLayer.position = CGPoint(x: 100,y: 100)
+        }
+        print("PRINTING LAYER POSITION")
+        print(self.redLayer.position)
     }
     
     func randomizeCirclePosition() {
@@ -397,8 +428,13 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
         
         var toPoint: CGPoint = CGPointMake(randomX, randomY)
         
-        print (toPoint.x, toPoint.y, redLayer.position, redLayer.cornerRadius)
-        self.redLayer.position = toPoint
+        print (toPoint.x, toPoint.y, redLayer.position)
+        
+        if self.newPosition != nil {
+          self.redLayer.position = self.newPosition!
+        } else {
+            self.redLayer.position = toPoint
+        }
         
 //        var fromPoint : CGPoint = CGPointZero
 //        

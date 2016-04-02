@@ -15,7 +15,7 @@
 
 @interface TestNtwkFile : NSObject
 
-+ (void)testNtwkFile;
++ (CGPoint)testNtwkFile:(UIImage*) leftEye secondImage:(UIImage*) rightEye thirdImage:(UIImage*) face;
 @end
 #endif /* Header_h */
 
