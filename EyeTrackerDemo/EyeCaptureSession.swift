@@ -686,36 +686,20 @@ class EyeCaptureSession: NSObject, AVCaptureMetadataOutputObjectsDelegate, AVCap
 
                 if let rightEyeView = self.rightEyeView {  // Optional binding is necessary here, as an external tap event could make the debugView nil after verifying that it's not nil.
                     // This could probably be drawn onto the context directly from the CIImage, though this is just for debugging.
-                    
-                    let leftEyeRectDebug = CGRect(
-                        x: bestFace.rightEyePosition.x - boxSizeHalf,
-                        y: faceHeightResized - (bestFace.rightEyePosition.y - boxSizeHalf) - boxSize,  // Flip y-axis for drawing in UIKit.
-                        width: boxSize, height: boxSize)
                     let rightEyeRectDebug = CGRect(
                         x: bestFace.leftEyePosition.x - boxSizeHalf,
                         y: faceHeightResized - (bestFace.leftEyePosition.y - boxSizeHalf) - boxSize,
                         width: boxSize, height: boxSize)
                     
-                    var firstDebugImage = UIImage(CGImage: self.faceImageContext.createCGImage(faceImageResized, fromRect: faceImageResized.extent))
+                    let rightEyeImage = UIImage(CGImage: self.faceImageContext.createCGImage(faceImageResized, fromRect: faceImageResized.extent))
                     
                     // Create bitmap image from context using the rect
-                    let imageRef: CGImageRef = CGImageCreateWithImageInRect(firstDebugImage.CGImage, rightEyeRectDebug)!
+                    let imageRef: CGImageRef = CGImageCreateWithImageInRect(rightEyeImage.CGImage, rightEyeRectDebug)!
                     // Create a new image based on the imageRef and rotate back to the original orientation
-                    var debugImage: UIImage = UIImage(CGImage: imageRef)
+                    let rightEyeDebugImage: UIImage = UIImage(CGImage: imageRef)
                     
-                    
-                    // Draw the boxes directly onto the image.
-                    UIGraphicsBeginImageContext(debugImage.size)
-                    debugImage.drawAtPoint(CGPointZero)
-                    let ctx = UIGraphicsGetCurrentContext()
-                    UIColor.greenColor().setStroke()
-                    // Left and right are swapped, as described below.
-                    CGContextStrokeRectWithWidth(ctx, leftEyeRectDebug, 1.0)
-                    CGContextStrokeRectWithWidth(ctx, rightEyeRectDebug, 1.0)
-                    debugImage = UIGraphicsGetImageFromCurrentImageContext()
-                    UIGraphicsEndImageContext()
                     dispatch_async(dispatch_get_main_queue()) {
-                        rightEyeView.image = debugImage
+                        rightEyeView.image = rightEyeDebugImage
                     }
                 }
                 
@@ -726,35 +710,16 @@ class EyeCaptureSession: NSObject, AVCaptureMetadataOutputObjectsDelegate, AVCap
                         x: bestFace.rightEyePosition.x - boxSizeHalf,
                         y: faceHeightResized - (bestFace.rightEyePosition.y - boxSizeHalf) - boxSize,  // Flip y-axis for drawing in UIKit.
                         width: boxSize, height: boxSize)
-//                    let rightEyeRectDebug = CGRect(
-//                        x: bestFace.leftEyePosition.x - boxSizeHalf,
-//                        y: faceHeightResized - (bestFace.leftEyePosition.y - boxSizeHalf) - boxSize,
-//                        width: boxSize, height: boxSize)
                     
-                    var firstDebugImage = UIImage(CGImage: self.faceImageContext.createCGImage(faceImageResized, fromRect: faceImageResized.extent))
+                    let leftEyeImage = UIImage(CGImage: self.faceImageContext.createCGImage(faceImageResized, fromRect: faceImageResized.extent))
                     
                     // Create bitmap image from context using the rect
-                    let imageRef: CGImageRef = CGImageCreateWithImageInRect(firstDebugImage.CGImage, leftEyeRectDebug)!
+                    let imageRef: CGImageRef = CGImageCreateWithImageInRect(leftEyeImage.CGImage, leftEyeRectDebug)!
                     // Create a new image based on the imageRef and rotate back to the original orientation
-                    var debugImage: UIImage = UIImage(CGImage: imageRef)
+                    let leftEyeDebugImage: UIImage = UIImage(CGImage: imageRef)
                     
-//                    print("HELLO")
-//                    print(debugImage.size.height)
-//                    print(debugImage.size.width)
-                    
-                    
-                    // Draw the boxes directly onto the image.
-                    //UIGraphicsBeginImageContext(debugImage.size)
-                    //debugImage.drawAtPoint(CGPointZero)
-                    //let ctx = UIGraphicsGetCurrentContext()
-                    //UIColor.greenColor().setStroke()
-                    // Left and right are swapped, as described below.
-                    //CGContextStrokeRectWithWidth(ctx, leftEyeRectDebug, 1.0)
-                    //CGContextStrokeRectWithWidth(ctx, rightEyeRectDebug, 1.0)
-                    //debugImage = UIGraphicsGetImageFromCurrentImageContext()
-                    //UIGraphicsEndImageContext()
                     dispatch_async(dispatch_get_main_queue()) {
-                        leftEyeView.image = debugImage
+                        leftEyeView.image = leftEyeDebugImage
                     }
                 }
                 
