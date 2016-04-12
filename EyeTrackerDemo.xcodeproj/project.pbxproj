@@ -8,6 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		03C4E9721BB5FC4EA2A6E154 /* libPods-EyeTrackerDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8276464BE9067ED644EEBF82 /* libPods-EyeTrackerDemo.a */; };
+		8712132D1C9BD2FE006D04A1 /* righteye_219FC.ntwk in Resources */ = {isa = PBXBuildFile; fileRef = 8712132B1C9BD2FE006D04A1 /* righteye_219FC.ntwk */; };
+		8712132E1C9BD2FE006D04A1 /* test_right_eye219.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8712132C1C9BD2FE006D04A1 /* test_right_eye219.jpg */; };
+		871213311C9BE42F006D04A1 /* face_219FC.ntwk in Resources */ = {isa = PBXBuildFile; fileRef = 8712132F1C9BE42F006D04A1 /* face_219FC.ntwk */; };
+		871213321C9BE42F006D04A1 /* test_face219.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 871213301C9BE42F006D04A1 /* test_face219.jpg */; };
+		871213361C9E7F95006D04A1 /* facegrid_bias1.txt in Resources */ = {isa = PBXBuildFile; fileRef = 871213331C9E7F95006D04A1 /* facegrid_bias1.txt */; };
+		871213371C9E7F95006D04A1 /* facegrid_input.txt in Resources */ = {isa = PBXBuildFile; fileRef = 871213341C9E7F95006D04A1 /* facegrid_input.txt */; };
+		871213381C9E7F95006D04A1 /* facegrid_weights1.txt in Resources */ = {isa = PBXBuildFile; fileRef = 871213351C9E7F95006D04A1 /* facegrid_weights1.txt */; };
+		8712133B1C9F86CC006D04A1 /* facegrid_bias2.txt in Resources */ = {isa = PBXBuildFile; fileRef = 871213391C9F86CC006D04A1 /* facegrid_bias2.txt */; };
+		8712133C1C9F86CC006D04A1 /* facegrid_weights2.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8712133A1C9F86CC006D04A1 /* facegrid_weights2.txt */; };
+		8712133E1C9F90C9006D04A1 /* test_facegrid_sunday.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8712133D1C9F90C9006D04A1 /* test_facegrid_sunday.txt */; };
 		875AF21C1C769116005FE004 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875AF21B1C769116005FE004 /* AppDelegate.swift */; };
 		875AF21E1C769117005FE004 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875AF21D1C769117005FE004 /* ViewController.swift */; };
 		875AF2211C769117005FE004 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 875AF21F1C769117005FE004 /* Main.storyboard */; };
@@ -20,13 +30,22 @@
 		875AF2431C769B2A005FE004 /* CGRect+CoordinateTransforms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875AF2421C769B2A005FE004 /* CGRect+CoordinateTransforms.swift */; };
 		875AF2451C769E58005FE004 /* CALayer+Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875AF2441C769E58005FE004 /* CALayer+Animation.swift */; };
 		8774943C1C7A4FFE00255376 /* UIImage+OpenCV.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8774943B1C7A4FFE00255376 /* UIImage+OpenCV.mm */; };
-		8780E31F1C953BE5005940C5 /* DeepBelief.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8780E31E1C953BE5005940C5 /* DeepBelief.framework */; };
 		8780E3211C95406F005940C5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8780E3201C95406F005940C5 /* Accelerate.framework */; };
 		8780E3231C9540BC005940C5 /* libc++.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8780E3221C9540BC005940C5 /* libc++.1.dylib */; };
 		8780E3261C954296005940C5 /* TestNtwkFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 8780E3251C954296005940C5 /* TestNtwkFile.m */; };
 		8780E3281C95449C005940C5 /* cifar10_1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8780E3271C95449C005940C5 /* cifar10_1.jpg */; };
 		8780E32A1C954504005940C5 /* cifar10_quick.ntwk in Resources */ = {isa = PBXBuildFile; fileRef = 8780E3291C954504005940C5 /* cifar10_quick.ntwk */; };
+		8780E32E1C995FA2005940C5 /* DeepBelief.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8780E31E1C953BE5005940C5 /* DeepBelief.framework */; };
+		8780E3301C9A6B50005940C5 /* lefteye_219FC.ntwk in Resources */ = {isa = PBXBuildFile; fileRef = 8780E32F1C9A6B50005940C5 /* lefteye_219FC.ntwk */; };
+		8780E3321C9A7ED8005940C5 /* test_left_eye219.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8780E3311C9A7ED8005940C5 /* test_left_eye219.jpg */; };
 		87B41EB81C7A8460006C5CB2 /* haarcascade_eye.xml in Resources */ = {isa = PBXBuildFile; fileRef = 87B41EB71C7A8460006C5CB2 /* haarcascade_eye.xml */; };
+		87B991F21CA598DC00336E4A /* concat_eyes_bias.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87B991EC1CA598DC00336E4A /* concat_eyes_bias.txt */; };
+		87B991F31CA598DC00336E4A /* concat_eyes_weights.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87B991ED1CA598DC00336E4A /* concat_eyes_weights.txt */; };
+		87B991F41CA598DC00336E4A /* concat_full_bias1.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87B991EE1CA598DC00336E4A /* concat_full_bias1.txt */; };
+		87B991F51CA598DC00336E4A /* concat_full_bias2.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87B991EF1CA598DC00336E4A /* concat_full_bias2.txt */; };
+		87B991F61CA598DC00336E4A /* concat_full_weights1.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87B991F01CA598DC00336E4A /* concat_full_weights1.txt */; };
+		87B991F71CA598DC00336E4A /* concat_full_weights2.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87B991F11CA598DC00336E4A /* concat_full_weights2.txt */; };
+		87B991F91CA6252B00336E4A /* concat_eyes_input.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87B991F81CA6252A00336E4A /* concat_eyes_input.txt */; };
 		87BE31A51C7906EB0002C597 /* OpenCVUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 87BE31A31C7906EB0002C597 /* OpenCVUtilities.cpp */; };
 		87BE31A71C790E500002C597 /* FPSQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BE31A61C790E500002C597 /* FPSQueue.swift */; };
 		87BE31AD1C7A45FD0002C597 /* CVEyeDetector.mm in Sources */ = {isa = PBXBuildFile; fileRef = 87BE31AB1C7A45FD0002C597 /* CVEyeDetector.mm */; };
@@ -46,6 +65,16 @@
 /* Begin PBXFileReference section */
 		50C2043E74C39FE5EB60CC4B /* Pods-EyeTrackerDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EyeTrackerDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-EyeTrackerDemo/Pods-EyeTrackerDemo.release.xcconfig"; sourceTree = "<group>"; };
 		8276464BE9067ED644EEBF82 /* libPods-EyeTrackerDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EyeTrackerDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8712132B1C9BD2FE006D04A1 /* righteye_219FC.ntwk */ = {isa = PBXFileReference; lastKnownFileType = file; path = righteye_219FC.ntwk; sourceTree = "<group>"; };
+		8712132C1C9BD2FE006D04A1 /* test_right_eye219.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = test_right_eye219.jpg; sourceTree = "<group>"; };
+		8712132F1C9BE42F006D04A1 /* face_219FC.ntwk */ = {isa = PBXFileReference; lastKnownFileType = file; path = face_219FC.ntwk; sourceTree = "<group>"; };
+		871213301C9BE42F006D04A1 /* test_face219.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = test_face219.jpg; sourceTree = "<group>"; };
+		871213331C9E7F95006D04A1 /* facegrid_bias1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = facegrid_bias1.txt; sourceTree = "<group>"; };
+		871213341C9E7F95006D04A1 /* facegrid_input.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = facegrid_input.txt; sourceTree = "<group>"; };
+		871213351C9E7F95006D04A1 /* facegrid_weights1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = facegrid_weights1.txt; sourceTree = "<group>"; };
+		871213391C9F86CC006D04A1 /* facegrid_bias2.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = facegrid_bias2.txt; sourceTree = "<group>"; };
+		8712133A1C9F86CC006D04A1 /* facegrid_weights2.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = facegrid_weights2.txt; sourceTree = "<group>"; };
+		8712133D1C9F90C9006D04A1 /* test_facegrid_sunday.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test_facegrid_sunday.txt; sourceTree = "<group>"; };
 		875AF2181C769116005FE004 /* EyeTrackerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EyeTrackerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		875AF21B1C769116005FE004 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		875AF21D1C769117005FE004 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -70,7 +99,16 @@
 		8780E3251C954296005940C5 /* TestNtwkFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestNtwkFile.m; sourceTree = "<group>"; };
 		8780E3271C95449C005940C5 /* cifar10_1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cifar10_1.jpg; sourceTree = "<group>"; };
 		8780E3291C954504005940C5 /* cifar10_quick.ntwk */ = {isa = PBXFileReference; lastKnownFileType = file; path = cifar10_quick.ntwk; sourceTree = "<group>"; };
+		8780E32F1C9A6B50005940C5 /* lefteye_219FC.ntwk */ = {isa = PBXFileReference; lastKnownFileType = file; path = lefteye_219FC.ntwk; sourceTree = "<group>"; };
+		8780E3311C9A7ED8005940C5 /* test_left_eye219.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = test_left_eye219.jpg; sourceTree = "<group>"; };
 		87B41EB71C7A8460006C5CB2 /* haarcascade_eye.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = haarcascade_eye.xml; path = EyeTrackerDemo/haarcascade_eye.xml; sourceTree = "<group>"; };
+		87B991EC1CA598DC00336E4A /* concat_eyes_bias.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = concat_eyes_bias.txt; sourceTree = "<group>"; };
+		87B991ED1CA598DC00336E4A /* concat_eyes_weights.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = concat_eyes_weights.txt; sourceTree = "<group>"; };
+		87B991EE1CA598DC00336E4A /* concat_full_bias1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = concat_full_bias1.txt; sourceTree = "<group>"; };
+		87B991EF1CA598DC00336E4A /* concat_full_bias2.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = concat_full_bias2.txt; sourceTree = "<group>"; };
+		87B991F01CA598DC00336E4A /* concat_full_weights1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = concat_full_weights1.txt; sourceTree = "<group>"; };
+		87B991F11CA598DC00336E4A /* concat_full_weights2.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = concat_full_weights2.txt; sourceTree = "<group>"; };
+		87B991F81CA6252A00336E4A /* concat_eyes_input.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = concat_eyes_input.txt; sourceTree = "<group>"; };
 		87BE319F1C78DB140002C597 /* KalmanFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KalmanFilter.h; sourceTree = "<group>"; };
 		87BE31A01C78DB720002C597 /* EyeTrackerDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EyeTrackerDemo-Bridging-Header.h"; sourceTree = "<group>"; };
 		87BE31A31C7906EB0002C597 /* OpenCVUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenCVUtilities.cpp; sourceTree = "<group>"; };
@@ -87,9 +125,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8780E32E1C995FA2005940C5 /* DeepBelief.framework in Frameworks */,
 				8780E3231C9540BC005940C5 /* libc++.1.dylib in Frameworks */,
 				8780E3211C95406F005940C5 /* Accelerate.framework in Frameworks */,
-				8780E31F1C953BE5005940C5 /* DeepBelief.framework in Frameworks */,
 				03C4E9721BB5FC4EA2A6E154 /* libPods-EyeTrackerDemo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -148,8 +186,25 @@
 		875AF21A1C769116005FE004 /* EyeTrackerDemo */ = {
 			isa = PBXGroup;
 			children = (
+				8780E32F1C9A6B50005940C5 /* lefteye_219FC.ntwk */,
 				8780E3241C954296005940C5 /* TestNtwkFile.h */,
 				8780E3251C954296005940C5 /* TestNtwkFile.m */,
+				87B991F81CA6252A00336E4A /* concat_eyes_input.txt */,
+				8712133D1C9F90C9006D04A1 /* test_facegrid_sunday.txt */,
+				871213391C9F86CC006D04A1 /* facegrid_bias2.txt */,
+				8712133A1C9F86CC006D04A1 /* facegrid_weights2.txt */,
+				871213331C9E7F95006D04A1 /* facegrid_bias1.txt */,
+				871213341C9E7F95006D04A1 /* facegrid_input.txt */,
+				871213351C9E7F95006D04A1 /* facegrid_weights1.txt */,
+				87B991EC1CA598DC00336E4A /* concat_eyes_bias.txt */,
+				87B991ED1CA598DC00336E4A /* concat_eyes_weights.txt */,
+				87B991EE1CA598DC00336E4A /* concat_full_bias1.txt */,
+				87B991EF1CA598DC00336E4A /* concat_full_bias2.txt */,
+				87B991F01CA598DC00336E4A /* concat_full_weights1.txt */,
+				87B991F11CA598DC00336E4A /* concat_full_weights2.txt */,
+				8712132F1C9BE42F006D04A1 /* face_219FC.ntwk */,
+				871213301C9BE42F006D04A1 /* test_face219.jpg */,
+				8780E3311C9A7ED8005940C5 /* test_left_eye219.jpg */,
 				8780E3291C954504005940C5 /* cifar10_quick.ntwk */,
 				8780E3271C95449C005940C5 /* cifar10_1.jpg */,
 				87BE31AB1C7A45FD0002C597 /* CVEyeDetector.mm */,
@@ -163,6 +218,8 @@
 				875AF21D1C769117005FE004 /* ViewController.swift */,
 				875AF23F1C769A2B005FE004 /* FaceFrame.swift */,
 				875AF23B1C7699BC005FE004 /* EyeCaptureSession.swift */,
+				8712132B1C9BD2FE006D04A1 /* righteye_219FC.ntwk */,
+				8712132C1C9BD2FE006D04A1 /* test_right_eye219.jpg */,
 				875AF23D1C7699F9005FE004 /* EyeCaptureSessionDelegate.swift */,
 				875AF21F1C769117005FE004 /* Main.storyboard */,
 				875AF2221C769117005FE004 /* Assets.xcassets */,
@@ -273,11 +330,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				87B41EB81C7A8460006C5CB2 /* haarcascade_eye.xml in Resources */,
+				8712133C1C9F86CC006D04A1 /* facegrid_weights2.txt in Resources */,
+				871213321C9BE42F006D04A1 /* test_face219.jpg in Resources */,
+				87B991F51CA598DC00336E4A /* concat_full_bias2.txt in Resources */,
 				8780E3281C95449C005940C5 /* cifar10_1.jpg in Resources */,
+				871213311C9BE42F006D04A1 /* face_219FC.ntwk in Resources */,
+				8712132D1C9BD2FE006D04A1 /* righteye_219FC.ntwk in Resources */,
+				8712133B1C9F86CC006D04A1 /* facegrid_bias2.txt in Resources */,
+				8712132E1C9BD2FE006D04A1 /* test_right_eye219.jpg in Resources */,
+				87B991F31CA598DC00336E4A /* concat_eyes_weights.txt in Resources */,
+				87B991F21CA598DC00336E4A /* concat_eyes_bias.txt in Resources */,
+				8780E3301C9A6B50005940C5 /* lefteye_219FC.ntwk in Resources */,
+				87B991F71CA598DC00336E4A /* concat_full_weights2.txt in Resources */,
+				8780E3321C9A7ED8005940C5 /* test_left_eye219.jpg in Resources */,
 				875AF2261C769117005FE004 /* LaunchScreen.storyboard in Resources */,
 				875AF2231C769117005FE004 /* Assets.xcassets in Resources */,
+				87B991F61CA598DC00336E4A /* concat_full_weights1.txt in Resources */,
 				8780E32A1C954504005940C5 /* cifar10_quick.ntwk in Resources */,
 				875AF2211C769117005FE004 /* Main.storyboard in Resources */,
+				87B991F91CA6252B00336E4A /* concat_eyes_input.txt in Resources */,
+				871213371C9E7F95006D04A1 /* facegrid_input.txt in Resources */,
+				871213381C9E7F95006D04A1 /* facegrid_weights1.txt in Resources */,
+				87B991F41CA598DC00336E4A /* concat_full_bias1.txt in Resources */,
+				871213361C9E7F95006D04A1 /* facegrid_bias1.txt in Resources */,
+				8712133E1C9F90C9006D04A1 /* test_facegrid_sunday.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -490,7 +566,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/OpenCV\"",
-					"$(PROJECT_DIR)/../../../deep_belief/**",
+					"$(PROJECT_DIR)/**",
 				);
 				INFOPLIST_FILE = EyeTrackerDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -511,7 +587,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/OpenCV\"",
-					"$(PROJECT_DIR)/../../../deep_belief/**",
+					"$(PROJECT_DIR)/**",
 				);
 				INFOPLIST_FILE = EyeTrackerDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
