@@ -14,7 +14,7 @@
 @implementation TestNtwkFile {
 }
 
-+ (CGPoint)testNtwkFile:(UIImage*) leftEye secondImage:(UIImage*) rightEye thirdImage:(UIImage*) face{
++ (CGPoint)testNtwkFile: (NSArray*)faceGrid firstImage:(UIImage*) leftEye secondImage:(UIImage*) rightEye thirdImage:(UIImage*) face{
 
         /* CONVERTING FROM JPG TO UIIMAGE */
 //    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -52,14 +52,20 @@
     void* left_eye_network = jpcnn_create_network(219, [networkPath UTF8String]);
     assert(left_eye_network != NULL);
 
+    
+    // UNCOMMENT BELOW 2 LINES FOR LIVE IMAGE
     NSString *leftEyeByteArray = [UIImageJPEGRepresentation(leftEye, 1.0) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
 
     const unsigned char *leftEyeBaseAddress = (const unsigned char *) [leftEyeByteArray cStringUsingEncoding:NSASCIIStringEncoding];
 
     void* inputImage = jpcnn_create_image_buffer_from_uint8_data(leftEyeBaseAddress, 32, 32, 3, 96, 0, 0);
+    // UNCOMMENT ABOVE 2 LINES FOR LIVE IMAGE
     
+    // UNCOMMENT BELOW 2 LINES FOR EXAMPLE IMAGE
 //    NSString* imagePath = [[NSBundle mainBundle] pathForResource:@"test_left_eye219" ofType:@"jpg"];
 //    void* inputImage = jpcnn_create_image_buffer_from_file([imagePath UTF8String]);
+    // UNCOMMENT ABOVE 2 LINES FOR EXAMPLE IMAGE
+    
     
     float* LE_predictions;
     int LE_predictionsLength;
@@ -99,15 +105,19 @@
     void* right_eye_network = jpcnn_create_network(219, [networkPath UTF8String]);
     assert(right_eye_network != NULL);
 
+    
+    // UNCOMMENT BELOW 3 LINES FOR LIVE IMAGE
     NSString *rightEyeByteArray = [UIImageJPEGRepresentation(leftEye, 1.0) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
     
     const unsigned char *rightEyeBaseAddress = (const unsigned char *) [rightEyeByteArray cStringUsingEncoding:NSASCIIStringEncoding];
     
     inputImage = jpcnn_create_image_buffer_from_uint8_data(rightEyeBaseAddress, 32, 32, 3, 96, 0, 0);
+    // UNCOMMENT ABOVE 3 LINES FOR LIVE IMAGE
     
+    // UNCOMMENT BELOW TWO LINES FOR EXAMPLE IMAGE
 //    imagePath = [[NSBundle mainBundle] pathForResource:@"test_right_eye219" ofType:@"jpg"]; //cifar10_1.jpg
-//    
 //    inputImage = jpcnn_create_image_buffer_from_file([imagePath UTF8String]);
+    // UNCOMMENT ABOVE TWO LINES FOR EXAMPLE IMAGE
     
     float* RE_predictions;
     int RE_predictionsLength;
@@ -137,16 +147,17 @@
     }
     void* face_network = jpcnn_create_network(219, [networkPath UTF8String]);
     assert(face_network != NULL);
-    
-//    imagePath = [[NSBundle mainBundle] pathForResource:@"test_face219" ofType:@"jpg"]; //cifar10_1.jpg
-//    
-//    inputImage = jpcnn_create_image_buffer_from_file([imagePath UTF8String]);
 
+    // UNCOMMENT BELOW 3 LINES FOR LIVE IMAGE
     NSString *faceByteArray = [UIImageJPEGRepresentation(leftEye, 1.0) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
-    
     const unsigned char *faceBaseAddress = (const unsigned char *) [faceByteArray cStringUsingEncoding:NSASCIIStringEncoding];
-    
     inputImage = jpcnn_create_image_buffer_from_uint8_data(faceBaseAddress, 32, 32, 3, 96, 0, 0);
+    // UNCOMMENT ABOVE 3 LINES FOR LIVE IMAGE
+    
+    // UNCOMMENT BELOW TWO LINES FOR EXAMPLE IMAGE
+//    imagePath = [[NSBundle mainBundle] pathForResource:@"test_face219" ofType:@"jpg"]; //cifar10_1.jpg
+//    inputImage = jpcnn_create_image_buffer_from_file([imagePath UTF8String]);
+    // UNCOMMENT ABOVE TWO LINES FOR EXAMPLE IMAGE
     
     float* F_predictions;
     int F_predictionsLength;
@@ -191,15 +202,27 @@
         i++;
     }
     
-    textPath = [[NSBundle mainBundle] pathForResource:@"test_facegrid_sunday" ofType:@"txt"];
-    lines = [[NSString stringWithContentsOfFile:textPath] componentsSeparatedByString:@"\n"];
+    // UNCOMMENT BELOW LINES TO USE EXAMPLE FACEGRID
+//    textPath = [[NSBundle mainBundle] pathForResource:@"test_facegrid_sunday" ofType:@"txt"];
+//    lines = [[NSString stringWithContentsOfFile:textPath] componentsSeparatedByString:@"\n"];
+//    
+//    nse = [lines objectEnumerator];
+//    i = 0;
+//    while(tmp = [nse nextObject]) {
+//        input[i] = [tmp floatValue];
+//        i++;
+//    }
+    // UNCOMMENT ABOVE LINES TO USE EXAMPLE FACEGRID
     
-    nse = [lines objectEnumerator];
-    i = 0;
-    while(tmp = [nse nextObject]) {
-        input[i] = [tmp floatValue];
-        i++;
+    // UNCOMMENT BELOW LINES TO USE LIVE FACEGRID
+//    printf("PRINTING FACEGRID\n");
+    for (int i=0; i < 625; i++) {
+        float f = [[faceGrid objectAtIndex:i] floatValue];
+        input[i] = f;
+//        printf("Number: %0.2f ", input[i]);
     }
+//    printf("END PRINTING FACEGRID\n");
+    // UNCOMMENT ABOVE LINES TO USE LIVE FACEGRID
 
     textPath = [[NSBundle mainBundle] pathForResource:@"facegrid_weights1" ofType:@"txt"];
     lines = [[NSString stringWithContentsOfFile:textPath] componentsSeparatedByString:@"\n"];

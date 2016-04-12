@@ -66,20 +66,48 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
     
     // MARK: - EyeCaptureSessionDelegate Methods
     func processFace(ff: FaceFrame) {
-        if leftEyeView.image != nil && rightEyeView.image != nil && debugView.image != nil{
+        if leftEyeView.image != nil && rightEyeView.image != nil && debugView.image != nil && ff.faceRect != nil {
+            print(self.view.bounds.size.width, self.view.bounds.size.height)
+            print(ff.faceRect!.origin.x, ff.faceRect!.origin.y, ff.faceRect!.size.width, ff.faceRect!.size.height)
             let size = CGSize(width: 219, height: 219)
             let resizedLeftEye = resizeImage(leftEyeView.image!, targetSize: size)
             let resizedRightEye = resizeImage(rightEyeView.image!, targetSize: size)
             let resizedFace = resizeImage(debugView.image!, targetSize: size)
-            let output = TestNtwkFile.testNtwkFile(resizedLeftEye, secondImage: resizedRightEye, thirdImage: resizedFace)
-            let toPoint: CGPoint = CGPointMake(abs(output.x)*200, abs(output.y)*200)
-            self.newPosition = toPoint
-            print("MOO")
-            print(output)
-//            moveToPosition(output)
+            let frameWidth = Double(Float(self.view.bounds.size.width))
+            let frameHeight = Double(Float(self.view.bounds.size.height))
+            let faceGridX = Double(Float(ff.faceRect!.origin.x))
+            let faceGridY = Double(Float(ff.faceRect!.origin.y))
+            let faceGridW = Double(Float(ff.faceRect!.size.width))
+            let faceGridH = Double(Float(ff.faceRect!.size.height))
+            let faceGrid:[Float] = createFaceGrid(frameWidth, frameH: frameHeight, gridW: 25.0, gridH: 25.0, labelFaceX: faceGridX, labelFaceY: faceGridY, labelFaceW: faceGridW, labelFaceH: faceGridH)
+            let output = TestNtwkFile.testNtwkFile(faceGrid, firstImage: resizedLeftEye, secondImage: resizedRightEye, thirdImage: resizedFace)
+            
+            var orientation = -1
+            switch UIDevice.currentDevice().orientation{
+            case .Portrait:
+                orientation = 1
+            case .PortraitUpsideDown:
+                orientation = 2
+            case .LandscapeLeft:
+                orientation = 3
+            case .LandscapeRight:
+                orientation = 4
+            default:
+                orientation = -1
+            }
+            
+            let frameSizePortrait = CGSize(width: min(view.frame.size.width, view.frame.size.height), height: max(view.frame.size.width, view.frame.size.height));
+
+            var frameSize = frameSizePortrait
+            
+            if orientation == 3 || orientation == 4 {
+                frameSize = CGSize(width: frameSizePortrait.height, height: frameSizePortrait.width)
+            }
+            
+            convertCoords(Float(output.x), yCam: Float(output.y), deviceName: "iPhone 6s", labelOrientation: orientation, labelActiveScreenW: Int(frameSize.width), labelActiveScreenH: Int(frameSize.height), useCM: false)
+
         }
-//        randomizeCirclePosition()
-//        circleTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("randomizeCirclePosition"), userInfo: nil, repeats: true)
+
         if ff.faceCrop != nil && ff.faceRect != nil && ff.fullFrameSize != nil {
             if let videoPreviewLayer = self.eyeCaptureSession?.videoPreviewLayer {
                 var faceRectDisp = ff.faceRect!
@@ -188,6 +216,101 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
     
     func updateStatus() {
         statusLabel.text = "FPS: \(self.eyeCaptureSession.frameFPS)  Detection: \(self.eyeCaptureSession.lastDetectionDuration) ms"
+    }
+    
+    // Adapted from Kyle's cam2screen.m
+    func convertCoords(xCam: Float, yCam: Float, deviceName: String, labelOrientation: Int, labelActiveScreenW: Int, labelActiveScreenH: Int, useCM: Bool){
+        // First, convert input to millimeters to be compatible with AppleDeviceData.mat
+        var xOut = xCam * 10
+        var yOut = yCam * 10
+        let deviceNames = ["iPhone 6s Plus", "iPhone 6s", "iPhone 6 Plus", "iPhone 6", "iPhone 5s", "iPhone 5c", "iPhone 5", "iPhone 4s", "iPad Mini", "iPad Air 2", "iPad Air", "iPad 4", "iPad 3", "iPad 2"]
+        
+        let deviceCameraToScreenXMm = [23.5400, 18.6100, 23.5400, 18.6100, 25.8500, 25.8500, 25.8500, 14.9600, 60.7000, 76.8600, 74.4000, 74.5000, 74.5000, 74.5000]
+        let deviceCameraToScreenYMm = [8.6600, 8.0400, 8.6500, 8.0300, 10.6500, 10.6400, 10.6500, 9.7800, 8.7000, 7.3700, 9.9000, 10.5000, 10.5000, 10.5000]
+        
+        let deviceScreenWidthMm = [68.3600, 58.4900, 68.3600, 58.5000, 51.7000, 51.7000, 51.7000, 49.9200, 121.3000, 153.7100, 149.0000, 149.0000,149.0000, 149.0000]
+        let deviceScreenHeightMm = [121.5400, 104.0500, 121.5400, 104.0500, 90.3900, 90.3900, 90.3900, 74.8800, 161.2000, 203.1100, 198.1000, 198.1000, 198.1000, 198.1000]
+    
+        var index = -1
+        for (var i=0; i < deviceNames.count; i++) {
+            if deviceNames[i] == deviceName {
+                index = i
+                break
+            }
+        }
+        let dx = deviceCameraToScreenXMm[index]
+        let dy = deviceCameraToScreenYMm[index]
+        let dw = deviceScreenWidthMm[index]
+        let dh = deviceScreenHeightMm[index]
+        
+        if labelOrientation == 1 {
+            xOut = xOut + Float(dx)
+            yOut = (-1)*(yOut) - Float(dy)
+        } else if labelOrientation == 2 {
+            xOut = xOut - Float(dx) + Float(dw)
+            yOut = (-1)*(yOut) + Float(dy) + Float(dh)
+        } else if labelOrientation == 3 {
+            xOut = xOut - Float(dy)
+            yOut = (-1)*(yOut) - Float(dx) + Float(dw)
+        } else if labelOrientation == 4 {
+            xOut = xOut + Float(dy) + Float(dh)
+            yOut = (-1)*(yOut) + Float(dx)
+        }
+        
+        if !useCM {
+            if (labelOrientation == 1 || labelOrientation == 2) {
+                xOut = (xOut * Float(labelActiveScreenW)) / Float(dw)
+                yOut = (yOut * Float(labelActiveScreenH)) / Float(dh)
+            } else if (labelOrientation == 3 || labelOrientation == 4) {
+                xOut = (xOut * Float(labelActiveScreenW)) / Float(dh)
+                yOut = (yOut * Float(labelActiveScreenH)) / Float(dw)
+            }
+        }
+        
+        if useCM {
+            xOut = xOut / 10;
+            yOut = yOut / 10;
+        }
+        
+        let toPoint: CGPoint = CGPointMake(CGFloat(xOut), CGFloat(yOut))
+        self.newPosition = toPoint
+        print (index, xOut, yOut)
+    }
+    
+    // Adapted from Kyle's facerect2grid.m
+    func createFaceGrid(frameW: Double, frameH: Double, gridW: Double, gridH: Double, labelFaceX: Double, labelFaceY: Double, labelFaceW: Double, labelFaceH: Double) -> Array<Float> {
+        let scaleX = gridW / frameW
+        let scaleY = gridH / frameH
+        var grid = Array(count: Int(round(gridH)), repeatedValue: Array(count: Int(round(gridW)), repeatedValue: 0.0))
+        var flattenedGrid = [Float](count: 625, repeatedValue: 0.0)
+//        var flattenedGrid = Array(count: 625, repeatedValue: 0.0)
+        
+        // Use zero-based image coordinates.
+        var xLo = Int(round(labelFaceX * scaleX))
+        var yLo = Int(round(labelFaceY * scaleY))
+        let w = Int(round(labelFaceW * scaleX))
+        let h = Int(round(labelFaceH * scaleY))
+        var xHi = xLo + w - 1
+        var yHi = yLo + h - 1
+        xLo = min(Int(round(gridW)), max(1, xLo))
+        xHi = min(Int(round(gridW)), max(1, xHi))
+        yLo = min(Int(round(gridH)), max(1, yLo))
+        yHi = min(Int(round(gridH)), max(1, yHi))
+        
+        for var i=yLo; i < yHi + 1; i++ {
+            for var j=xLo; j < xHi; j++ { // SHOULD J BE AT XHI OR XHI - 1
+                flattenedGrid[25 * i + j] = 1.0
+                grid[i][j] = 1.0
+            }
+        }
+        
+        // Flatten
+//        for var i=0; i < 25; i++ {
+//            for var j=0; j < 25; j++ {
+//                flattenedGrid[25 * i + j] = grid[i][j]
+//            }
+//        }
+        return flattenedGrid
     }
     
     // Draw three CGRects to the screen to display the eye detections. This must
@@ -347,8 +470,8 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
     }
 
     func setup() {
-//        TestNtwkFile.testNtwkFile()
         
+//        let output = TestNtwkFile.testNtwkFile(nil, secondImage: nil, thirdImage: nil)
         redLayer.frame = CGRect(x: 100, y: 100, width: 50, height: 50)
         redLayer.backgroundColor = UIColor.redColor().CGColor
         
@@ -395,9 +518,6 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
         self.redLayer.position = toPoint
         
         UIView.animateWithDuration(0.75, delay: 0, options: .CurveLinear, animations: {
-//            self.redLayer.position = toPoint
-//            self.redLayer.frame.origin.x = toPoint.x
-//            self.redLayer.frame.origin.y = toPoint.y
             let modelLayer = self.redLayer.modelLayer()
             self.redLayer.frame = CGRect(x: toPoint.x, y: toPoint.y, width: 50, height: 50)
             print("ORIGIN IS ")
@@ -411,8 +531,6 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
         } else {
             self.redLayer.position = CGPoint(x: 100,y: 100)
         }
-        print("PRINTING LAYER POSITION")
-        print(self.redLayer.position)
     }
     
     func randomizeCirclePosition() {
