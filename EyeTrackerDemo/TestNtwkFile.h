@@ -15,7 +15,7 @@
 
 @interface TestNtwkFile : NSObject
 
-+ (CGPoint)testNtwkFile:(UIImage*) leftEye secondImage:(UIImage*) rightEye thirdImage:(UIImage*) face;
++ (CGPoint)testNtwkFile: (NSArray*)faceGrid firstImage:(UIImage*) leftEye secondImage:(UIImage*) rightEye thirdImage:(UIImage*) face;
 @end
 #endif /* Header_h */
 
