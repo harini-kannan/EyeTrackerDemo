@@ -80,6 +80,7 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
             let faceGridW = Double(Float(ff.faceRect!.size.width))
             let faceGridH = Double(Float(ff.faceRect!.size.height))
             let faceGrid:[Float] = createFaceGrid(frameWidth, frameH: frameHeight, gridW: 25.0, gridH: 25.0, labelFaceX: faceGridX, labelFaceY: faceGridY, labelFaceW: faceGridW, labelFaceH: faceGridH)
+            
             let output = TestNtwkFile.testNtwkFile(faceGrid, firstImage: resizedLeftEye, secondImage: resizedRightEye, thirdImage: resizedFace)
             
             var orientation = -1
@@ -220,6 +221,10 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
     
     // Adapted from Kyle's cam2screen.m
     func convertCoords(xCam: Float, yCam: Float, deviceName: String, labelOrientation: Int, labelActiveScreenW: Int, labelActiveScreenH: Int, useCM: Bool){
+        print("PRINTING INPUTS TO CONVERT COORDS")
+        print(xCam, yCam, deviceName, labelOrientation, labelActiveScreenW, labelActiveScreenH, useCM)
+        print("END PRINTING INPUTS TO CONVERT COORDS")
+        
         // First, convert input to millimeters to be compatible with AppleDeviceData.mat
         var xOut = xCam * 10
         var yOut = yCam * 10
@@ -275,15 +280,22 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
         let toPoint: CGPoint = CGPointMake(CGFloat(xOut), CGFloat(yOut))
         self.newPosition = toPoint
         print (index, xOut, yOut)
+        
+        print("PRINTING OUTPUTS TO CONVERT COORDS")
+        print(xOut, yOut)
+        print("END PRINTING OUTPUTS TO CONVERT COORDS")
+        
     }
     
     // Adapted from Kyle's facerect2grid.m
     func createFaceGrid(frameW: Double, frameH: Double, gridW: Double, gridH: Double, labelFaceX: Double, labelFaceY: Double, labelFaceW: Double, labelFaceH: Double) -> Array<Float> {
+//        print("BEGIN PRINTING PARAMETERS")
+//        print (frameW, frameH, gridW, gridH, labelFaceX, labelFaceY, labelFaceW, labelFaceH)
+//        print("END PRINTING PARAMETERS")
         let scaleX = gridW / frameW
         let scaleY = gridH / frameH
         var grid = Array(count: Int(round(gridH)), repeatedValue: Array(count: Int(round(gridW)), repeatedValue: 0.0))
         var flattenedGrid = [Float](count: 625, repeatedValue: 0.0)
-//        var flattenedGrid = Array(count: 625, repeatedValue: 0.0)
         
         // Use zero-based image coordinates.
         var xLo = Int(round(labelFaceX * scaleX))
@@ -292,24 +304,25 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
         let h = Int(round(labelFaceH * scaleY))
         var xHi = xLo + w - 1
         var yHi = yLo + h - 1
-        xLo = min(Int(round(gridW)), max(1, xLo))
-        xHi = min(Int(round(gridW)), max(1, xHi))
-        yLo = min(Int(round(gridH)), max(1, yLo))
-        yHi = min(Int(round(gridH)), max(1, yHi))
+        xLo = min(Int(round(gridW) - 1), max(0, xLo))
+        xHi = min(Int(round(gridW) - 1), max(0, xHi))
+        yLo = min(Int(round(gridH) - 1), max(0, yLo))
+        yHi = min(Int(round(gridH) - 1), max(0, yHi))
+        
+        print (xLo, xHi, yLo, yHi)
         
         for var i=yLo; i < yHi + 1; i++ {
-            for var j=xLo; j < xHi; j++ { // SHOULD J BE AT XHI OR XHI - 1
+            for var j=xLo; j < xHi+1; j++ { // SHOULD J BE AT XHI OR XHI - 1
                 flattenedGrid[25 * i + j] = 1.0
                 grid[i][j] = 1.0
             }
         }
         
-        // Flatten
-//        for var i=0; i < 25; i++ {
-//            for var j=0; j < 25; j++ {
-//                flattenedGrid[25 * i + j] = grid[i][j]
-//            }
+//        print("BEGIN PRINTING OUTPUT")
+//        for var i=0; i < 625; i++ {
+//            print(flattenedGrid[i])
 //        }
+//        print("END PRINTING OUTPUT")
         return flattenedGrid
     }
     
@@ -438,6 +451,11 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
         faceLayer.addSublayer(rightEyeLayer)
 
         setup()
+
+//        print("A MOO POINT")
+//        let faceGrid:[Float] = createFaceGrid(375.0, frameH: 667.0, gridW: 25.0, gridH: 25.0, labelFaceX: 91.6927185058594, labelFaceY: 267.464324951172, labelFaceW: 274.834564208984, labelFaceH: 274.319366455078)
+//        print("A MOO POINT")
+
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -505,25 +523,9 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
 //        // Finally, add the animation to the layer
 //        redLayer.addAnimation(animation, forKey: "cornerRadius")
         
-//        randomizeCirclePosition()
-//        randomizeCirclePosition()
-//        randomizeCirclePosition()
         circleTimer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: Selector("moveToPositionWithTimer"), userInfo: nil, repeats: true)
     }
 
-    func moveToPosition(newPosition: CGPoint) {
-        let toPoint: CGPoint = CGPointMake(abs(newPosition.x)*200, abs(newPosition.y)*200)
-        print (toPoint.x, toPoint.y, redLayer.position)
-        
-        self.redLayer.position = toPoint
-        
-        UIView.animateWithDuration(0.75, delay: 0, options: .CurveLinear, animations: {
-            let modelLayer = self.redLayer.modelLayer()
-            self.redLayer.frame = CGRect(x: toPoint.x, y: toPoint.y, width: 50, height: 50)
-            print("ORIGIN IS ")
-            print(self.redLayer.frame.origin)
-            }, completion: nil)
-    }
 
     func moveToPositionWithTimer() {
         if self.newPosition != nil {
@@ -533,39 +535,7 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
         }
     }
     
-    func randomizeCirclePosition() {
-        let preferredMinX = self.view.bounds.minX + self.circleRadius * 2
-        let preferredMaxX = self.view.bounds.maxX - self.circleRadius * 2
-        let preferredMinY = self.view.bounds.minY + self.circleRadius * 2
-        let preferredMaxY = self.view.bounds.maxY - self.circleRadius * 2
-        
-        let randomX = CGFloat(arc4random_uniform(UInt32(preferredMaxX - preferredMinX))) + preferredMinX
-        let randomY = CGFloat(arc4random_uniform(UInt32(preferredMaxY - preferredMinY))) + preferredMinY
-        
-        let point = CGPoint(x: randomX, y: randomY)
-        
-        var toPoint: CGPoint = CGPointMake(randomX, randomY)
-        
-        print (toPoint.x, toPoint.y, redLayer.position)
-        
-        if self.newPosition != nil {
-          self.redLayer.position = self.newPosition!
-        } else {
-            self.redLayer.position = toPoint
-        }
-        
-//        var fromPoint : CGPoint = CGPointZero
-//        
-//        var movement = CABasicAnimation(keyPath: "movement")
-////        movement.additive = true
-////        movement.fromValue =  NSValue(CGPoint: self.redLayer.position)
-//        movement.toValue =  NSValue(CGPoint: toPoint)
-//        movement.duration = 0.3
-//        
-//        self.redLayer.addAnimation(movement, forKey: "position")
-        
-//        self.redLayer.animateToPosition(point)
-    }
+
 }
 
 
