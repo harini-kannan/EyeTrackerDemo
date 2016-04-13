@@ -73,8 +73,10 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
             let resizedLeftEye = resizeImage(leftEyeView.image!, targetSize: size)
             let resizedRightEye = resizeImage(rightEyeView.image!, targetSize: size)
             let resizedFace = resizeImage(debugView.image!, targetSize: size)
-            let frameWidth = Double(Float(self.view.bounds.size.width))
-            let frameHeight = Double(Float(self.view.bounds.size.height))
+            
+            let frameHeight = Double(Float(ff.fullFrameSize!.width))
+            let frameWidth = Double(Float(ff.fullFrameSize!.height))
+            
             let faceGridX = Double(Float(ff.faceRect!.origin.x))
             let faceGridY = Double(Float(ff.faceRect!.origin.y))
             let faceGridW = Double(Float(ff.faceRect!.size.width))
@@ -83,19 +85,7 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
             
             let output = TestNtwkFile.testNtwkFile(faceGrid, firstImage: resizedLeftEye, secondImage: resizedRightEye, thirdImage: resizedFace)
             
-            var orientation = -1
-            switch UIDevice.currentDevice().orientation{
-            case .Portrait:
-                orientation = 1
-            case .PortraitUpsideDown:
-                orientation = 2
-            case .LandscapeLeft:
-                orientation = 3
-            case .LandscapeRight:
-                orientation = 4
-            default:
-                orientation = -1
-            }
+            var orientation = UIDevice.currentDevice().orientation.rawValue
             
             let frameSizePortrait = CGSize(width: min(view.frame.size.width, view.frame.size.height), height: max(view.frame.size.width, view.frame.size.height));
 
@@ -221,9 +211,9 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
     
     // Adapted from Kyle's cam2screen.m
     func convertCoords(xCam: Float, yCam: Float, deviceName: String, labelOrientation: Int, labelActiveScreenW: Int, labelActiveScreenH: Int, useCM: Bool){
-        print("PRINTING INPUTS TO CONVERT COORDS")
-        print(xCam, yCam, deviceName, labelOrientation, labelActiveScreenW, labelActiveScreenH, useCM)
-        print("END PRINTING INPUTS TO CONVERT COORDS")
+//        print("PRINTING INPUTS TO CONVERT COORDS")
+//        print(xCam, yCam, deviceName, labelOrientation, labelActiveScreenW, labelActiveScreenH, useCM)
+//        print("END PRINTING INPUTS TO CONVERT COORDS")
         
         // First, convert input to millimeters to be compatible with AppleDeviceData.mat
         var xOut = xCam * 10
@@ -281,17 +271,17 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
         self.newPosition = toPoint
         print (index, xOut, yOut)
         
-        print("PRINTING OUTPUTS TO CONVERT COORDS")
-        print(xOut, yOut)
-        print("END PRINTING OUTPUTS TO CONVERT COORDS")
+//        print("PRINTING OUTPUTS TO CONVERT COORDS")
+//        print(xOut, yOut)
+//        print("END PRINTING OUTPUTS TO CONVERT COORDS")
         
     }
     
     // Adapted from Kyle's facerect2grid.m
     func createFaceGrid(frameW: Double, frameH: Double, gridW: Double, gridH: Double, labelFaceX: Double, labelFaceY: Double, labelFaceW: Double, labelFaceH: Double) -> Array<Float> {
-//        print("BEGIN PRINTING PARAMETERS")
-//        print (frameW, frameH, gridW, gridH, labelFaceX, labelFaceY, labelFaceW, labelFaceH)
-//        print("END PRINTING PARAMETERS")
+        print("BEGIN PRINTING PARAMETERS")
+        print (frameW, frameH, gridW, gridH, labelFaceX, labelFaceY, labelFaceW, labelFaceH)
+        print("END PRINTING PARAMETERS")
         let scaleX = gridW / frameW
         let scaleY = gridH / frameH
         var grid = Array(count: Int(round(gridH)), repeatedValue: Array(count: Int(round(gridW)), repeatedValue: 0.0))
