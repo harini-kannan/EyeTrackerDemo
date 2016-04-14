@@ -67,8 +67,8 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
     // MARK: - EyeCaptureSessionDelegate Methods
     func processFace(ff: FaceFrame) {
         if leftEyeView.image != nil && rightEyeView.image != nil && debugView.image != nil && ff.faceRect != nil {
-            print(self.view.bounds.size.width, self.view.bounds.size.height)
-            print(ff.faceRect!.origin.x, ff.faceRect!.origin.y, ff.faceRect!.size.width, ff.faceRect!.size.height)
+//            print(self.view.bounds.size.width, self.view.bounds.size.height)
+//            print(ff.faceRect!.origin.x, ff.faceRect!.origin.y, ff.faceRect!.size.width, ff.faceRect!.size.height)
             let size = CGSize(width: 219, height: 219)
             let resizedLeftEye = resizeImage(leftEyeView.image!, targetSize: size)
             let resizedRightEye = resizeImage(rightEyeView.image!, targetSize: size)
@@ -268,7 +268,11 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
         }
         
         let toPoint: CGPoint = CGPointMake(CGFloat(xOut), CGFloat(yOut))
-        self.newPosition = toPoint
+
+        let kalmanFilter = KalmanFilter()
+        let smoothPoint = kalmanFilter.processPoint(toPoint)
+        self.newPosition = smoothPoint
+        
         print (index, xOut, yOut)
         
 //        print("PRINTING OUTPUTS TO CONVERT COORDS")
@@ -279,9 +283,9 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
     
     // Adapted from Kyle's facerect2grid.m
     func createFaceGrid(frameW: Double, frameH: Double, gridW: Double, gridH: Double, labelFaceX: Double, labelFaceY: Double, labelFaceW: Double, labelFaceH: Double) -> Array<Float> {
-        print("BEGIN PRINTING PARAMETERS")
-        print (frameW, frameH, gridW, gridH, labelFaceX, labelFaceY, labelFaceW, labelFaceH)
-        print("END PRINTING PARAMETERS")
+//        print("BEGIN PRINTING PARAMETERS")
+//        print (frameW, frameH, gridW, gridH, labelFaceX, labelFaceY, labelFaceW, labelFaceH)
+//        print("END PRINTING PARAMETERS")
         let scaleX = gridW / frameW
         let scaleY = gridH / frameH
         var grid = Array(count: Int(round(gridH)), repeatedValue: Array(count: Int(round(gridW)), repeatedValue: 0.0))
