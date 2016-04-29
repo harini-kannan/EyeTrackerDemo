@@ -14,8 +14,8 @@
 #define Header_h
 
 @interface TestNtwkFile : NSObject
-
-+ (CGPoint)testNtwkFile: (NSArray*)faceGrid firstImage:(UIImage*) leftEye secondImage:(UIImage*) rightEye thirdImage:(UIImage*) face;
+- (void)readFacegridParams;
+- (CGPoint)testNtwkFile: (NSArray*)faceGrid firstImage:(UIImage*) leftEye secondImage:(UIImage*) rightEye thirdImage:(UIImage*) face;
 @end
 #endif /* Header_h */
 

@@ -14,34 +14,7 @@
 @implementation TestNtwkFile {
 }
 
-+ (CGPoint)testNtwkFile: (NSArray*)faceGrid firstImage:(UIImage*) leftEye secondImage:(UIImage*) rightEye thirdImage:(UIImage*) face{
-
-        /* CONVERTING FROM JPG TO UIIMAGE */
-//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-//    NSString *documentsDirectory = [paths objectAtIndex:0];
-//    
-//    // Add the file to the end of the documents path
-//    NSString *filePath = [documentsDirectory stringByAppendingPathComponent:@"cifar10_1.jpg"];
-//    
-////    UIImage *image = [UIImage imageWithContentsOfFile:filePath];
-//    
-//    UIImage *image = [UIImage imageNamed:@"cifar10_1.jpg"];
-//    NSString *byteArray = [UIImageJPEGRepresentation(image, 1.0) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
-//
-//    const unsigned char *baseAddress = (const unsigned char *) [byteArray cStringUsingEncoding:NSASCIIStringEncoding];
-    
-    //void* inputImage = jpcnn_create_image_buffer_from_uint8_data(baseAddress, 32, 32, 3, 96, 0, 0);
-
-//    UIImage *img = [UIImage imageNamed:@"cifar10_1.jpg"];
-//    
-//    CFDataRef pixelData = CGDataProviderCopyData(CGImageGetDataProvider(img.CGImage));
-//    
-//    const unsigned char *buffer = CFDataGetBytePtr(pixelData);
-//    
-//    CFRelease(pixelData);
-    //void* inputImage = jpcnn_create_image_buffer_from_uint8_data_four_channel(buffer, 32, 32, 4, 128, 0, 0);
-
-    /* END CONVERTING FROM JPG TO UIIMAGE */
+- (CGPoint)testNtwkFile: (NSArray*)faceGrid firstImage:(UIImage*) leftEye secondImage:(UIImage*) rightEye thirdImage:(UIImage*) face{
 
     // BEGIN: LEFTEYE
     NSString* networkPath = [[NSBundle mainBundle] pathForResource:@"lefteye_219FC" ofType:@"ntwk"]; //cifar10_quick.ntwk
@@ -54,16 +27,16 @@
 
     
     // UNCOMMENT BELOW 2 LINES FOR LIVE IMAGE
-    NSString *leftEyeByteArray = [UIImageJPEGRepresentation(leftEye, 1.0) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
-
-    const unsigned char *leftEyeBaseAddress = (const unsigned char *) [leftEyeByteArray cStringUsingEncoding:NSASCIIStringEncoding];
-
-    void* inputImage = jpcnn_create_image_buffer_from_uint8_data(leftEyeBaseAddress, 32, 32, 3, 96, 0, 0);
+//    NSString *leftEyeByteArray = [UIImageJPEGRepresentation(leftEye, 1.0) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+//
+//    const unsigned char *leftEyeBaseAddress = (const unsigned char *) [leftEyeByteArray cStringUsingEncoding:NSASCIIStringEncoding];
+//
+//    void* inputImage = jpcnn_create_image_buffer_from_uint8_data(leftEyeBaseAddress, 32, 32, 3, 96, 0, 0);
     // UNCOMMENT ABOVE 2 LINES FOR LIVE IMAGE
     
     // UNCOMMENT BELOW 2 LINES FOR EXAMPLE IMAGE
-//    NSString* imagePath = [[NSBundle mainBundle] pathForResource:@"test_left_eye219" ofType:@"jpg"];
-//    void* inputImage = jpcnn_create_image_buffer_from_file([imagePath UTF8String]);
+    NSString* imagePath = [[NSBundle mainBundle] pathForResource:@"test_left_eye219" ofType:@"jpg"];
+    void* inputImage = jpcnn_create_image_buffer_from_file([imagePath UTF8String]);
     // UNCOMMENT ABOVE 2 LINES FOR EXAMPLE IMAGE
     
     
@@ -107,16 +80,16 @@
 
     
     // UNCOMMENT BELOW 3 LINES FOR LIVE IMAGE
-    NSString *rightEyeByteArray = [UIImageJPEGRepresentation(leftEye, 1.0) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
-    
-    const unsigned char *rightEyeBaseAddress = (const unsigned char *) [rightEyeByteArray cStringUsingEncoding:NSASCIIStringEncoding];
-    
-    inputImage = jpcnn_create_image_buffer_from_uint8_data(rightEyeBaseAddress, 32, 32, 3, 96, 0, 0);
+//    NSString *rightEyeByteArray = [UIImageJPEGRepresentation(leftEye, 1.0) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+//    
+//    const unsigned char *rightEyeBaseAddress = (const unsigned char *) [rightEyeByteArray cStringUsingEncoding:NSASCIIStringEncoding];
+//    
+//    inputImage = jpcnn_create_image_buffer_from_uint8_data(rightEyeBaseAddress, 32, 32, 3, 96, 0, 0);
     // UNCOMMENT ABOVE 3 LINES FOR LIVE IMAGE
     
     // UNCOMMENT BELOW TWO LINES FOR EXAMPLE IMAGE
-//    imagePath = [[NSBundle mainBundle] pathForResource:@"test_right_eye219" ofType:@"jpg"]; //cifar10_1.jpg
-//    inputImage = jpcnn_create_image_buffer_from_file([imagePath UTF8String]);
+    imagePath = [[NSBundle mainBundle] pathForResource:@"test_right_eye219" ofType:@"jpg"]; //cifar10_1.jpg
+    inputImage = jpcnn_create_image_buffer_from_file([imagePath UTF8String]);
     // UNCOMMENT ABOVE TWO LINES FOR EXAMPLE IMAGE
     
     float* RE_predictions;
@@ -149,14 +122,14 @@
     assert(face_network != NULL);
 
     // UNCOMMENT BELOW 3 LINES FOR LIVE IMAGE
-    NSString *faceByteArray = [UIImageJPEGRepresentation(leftEye, 1.0) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
-    const unsigned char *faceBaseAddress = (const unsigned char *) [faceByteArray cStringUsingEncoding:NSASCIIStringEncoding];
-    inputImage = jpcnn_create_image_buffer_from_uint8_data(faceBaseAddress, 32, 32, 3, 96, 0, 0);
+//    NSString *faceByteArray = [UIImageJPEGRepresentation(leftEye, 1.0) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+//    const unsigned char *faceBaseAddress = (const unsigned char *) [faceByteArray cStringUsingEncoding:NSASCIIStringEncoding];
+//    inputImage = jpcnn_create_image_buffer_from_uint8_data(faceBaseAddress, 32, 32, 3, 96, 0, 0);
     // UNCOMMENT ABOVE 3 LINES FOR LIVE IMAGE
     
     // UNCOMMENT BELOW TWO LINES FOR EXAMPLE IMAGE
-//    imagePath = [[NSBundle mainBundle] pathForResource:@"test_face219" ofType:@"jpg"]; //cifar10_1.jpg
-//    inputImage = jpcnn_create_image_buffer_from_file([imagePath UTF8String]);
+    imagePath = [[NSBundle mainBundle] pathForResource:@"test_face219" ofType:@"jpg"]; //cifar10_1.jpg
+    inputImage = jpcnn_create_image_buffer_from_file([imagePath UTF8String]);
     // UNCOMMENT ABOVE TWO LINES FOR EXAMPLE IMAGE
     
     float* F_predictions;
@@ -168,15 +141,15 @@
     
     jpcnn_destroy_image_buffer(inputImage);
     
-//    for (int index = 0; index < F_predictionsLength; index += 1) {
-//        const float predictionValue = F_predictions[index];
-//        char* label = F_predictionsLabels[index % F_predictionsLabelsLength];
-//        NSString* predictionLine = [NSString stringWithFormat: @"%s - %0.2f\n", label, predictionValue];
-//        NSLog(@"%@", predictionLine);
-//    }
+    for (int index = 0; index < F_predictionsLength; index += 1) {
+        const float predictionValue = F_predictions[index];
+        char* label = F_predictionsLabels[index % F_predictionsLabelsLength];
+        NSString* predictionLine = [NSString stringWithFormat: @"%s - %0.2f\n", label, predictionValue];
+        NSLog(@"%@", predictionLine);
+    }
     
-    //jpcnn_destroy_network(network);
-    // END: FACE
+//    jpcnn_destroy_network(network);
+//     END: FACE
     
     // BEGIN: FACEGRID
     
@@ -192,7 +165,7 @@
     NSString *tmp;
     NSArray *lines;
     
-    NSString* textPath = [[NSBundle mainBundle] pathForResource:@"facegrid_bias1" ofType:@"txt"];
+    NSString* textPath = [[NSBundle mainBundle] pathForResource:@"facegrid_bias1" ofType:@"txt" inDirectory:@"gazecapture789"];
     lines = [[NSString stringWithContentsOfFile:textPath] componentsSeparatedByString:@"\n"];
     
     NSEnumerator *nse = [lines objectEnumerator];
@@ -203,28 +176,25 @@
     }
     
     // UNCOMMENT BELOW LINES TO USE EXAMPLE FACEGRID
-//    textPath = [[NSBundle mainBundle] pathForResource:@"test_facegrid_sunday" ofType:@"txt"];
-//    lines = [[NSString stringWithContentsOfFile:textPath] componentsSeparatedByString:@"\n"];
-//    
-//    nse = [lines objectEnumerator];
-//    i = 0;
-//    while(tmp = [nse nextObject]) {
-//        input[i] = [tmp floatValue];
-//        i++;
-//    }
+    textPath = [[NSBundle mainBundle] pathForResource:@"test_facegrid_sunday" ofType:@"txt"];
+    lines = [[NSString stringWithContentsOfFile:textPath] componentsSeparatedByString:@"\n"];
+    
+    nse = [lines objectEnumerator];
+    i = 0;
+    while(tmp = [nse nextObject]) {
+        input[i] = [tmp floatValue];
+        i++;
+    }
     // UNCOMMENT ABOVE LINES TO USE EXAMPLE FACEGRID
     
     // UNCOMMENT BELOW LINES TO USE LIVE FACEGRID
-//    printf("PRINTING FACEGRID\n");
-    for (int i=0; i < 625; i++) {
-        float f = [[faceGrid objectAtIndex:i] floatValue];
-        input[i] = f;
-//        printf("Number: %0.2f ", input[i]);
-    }
-//    printf("END PRINTING FACEGRID\n");
+//    for (int i=0; i < 625; i++) {
+//        float f = [[faceGrid objectAtIndex:i] floatValue];
+//        input[i] = f;
+//    }
     // UNCOMMENT ABOVE LINES TO USE LIVE FACEGRID
 
-    textPath = [[NSBundle mainBundle] pathForResource:@"facegrid_weights1" ofType:@"txt"];
+    textPath = [[NSBundle mainBundle] pathForResource:@"facegrid_weights1" ofType:@"txt" inDirectory:@"gazecapture789"];
     lines = [[NSString stringWithContentsOfFile:textPath] componentsSeparatedByString:@"\n"];
     
     nse = [lines objectEnumerator];
@@ -236,7 +206,7 @@
         i++;
     }
     
-    textPath = [[NSBundle mainBundle] pathForResource:@"facegrid_weights2" ofType:@"txt"];
+    textPath = [[NSBundle mainBundle] pathForResource:@"facegrid_weights2" ofType:@"txt" inDirectory:@"gazecapture789"];
     lines = [[NSString stringWithContentsOfFile:textPath] componentsSeparatedByString:@"\n"];
     
     nse = [lines objectEnumerator];
@@ -247,7 +217,7 @@
     }
 
     
-    textPath = [[NSBundle mainBundle] pathForResource:@"facegrid_bias2" ofType:@"txt"];
+    textPath = [[NSBundle mainBundle] pathForResource:@"facegrid_bias2" ofType:@"txt" inDirectory:@"gazecapture789"];
     lines = [[NSString stringWithContentsOfFile:textPath] componentsSeparatedByString:@"\n"];
     
     nse = [lines objectEnumerator];
@@ -280,7 +250,7 @@
     NSArray *eyes_lines;
     
     // Bias dimensions are 1 1 1 128
-    NSString* eyesTextPath = [[NSBundle mainBundle] pathForResource:@"concat_eyes_bias" ofType:@"txt"];
+    NSString* eyesTextPath = [[NSBundle mainBundle] pathForResource:@"concat_eyes_bias" ofType:@"txt" inDirectory:@"gazecapture789"];
     lines = [[NSString stringWithContentsOfFile:eyesTextPath] componentsSeparatedByString:@"\n"];
     
     NSEnumerator *eyes_nse = [lines objectEnumerator];
@@ -291,7 +261,7 @@
     }
     
     // Eyes dimensions is 1 1 256 128
-    textPath = [[NSBundle mainBundle] pathForResource:@"concat_eyes_weights" ofType:@"txt"];
+    textPath = [[NSBundle mainBundle] pathForResource:@"concat_eyes_weights" ofType:@"txt" inDirectory:@"gazecapture789"];
     lines = [[NSString stringWithContentsOfFile:textPath] componentsSeparatedByString:@"\n"];
     
     nse = [lines objectEnumerator];
@@ -342,7 +312,7 @@
     float final_bias2[2];
     
     // Dimensions: 1 1 320 128
-    textPath = [[NSBundle mainBundle] pathForResource:@"concat_full_weights1" ofType:@"txt"];
+    textPath = [[NSBundle mainBundle] pathForResource:@"concat_full_weights1" ofType:@"txt" inDirectory:@"gazecapture789"];
     lines = [[NSString stringWithContentsOfFile:textPath] componentsSeparatedByString:@"\n"];
     
     nse = [lines objectEnumerator];
@@ -355,7 +325,7 @@
     }
 
     // Dimensions: 1 1 1 128
-    textPath = [[NSBundle mainBundle] pathForResource:@"concat_full_bias1" ofType:@"txt"];
+    textPath = [[NSBundle mainBundle] pathForResource:@"concat_full_bias1" ofType:@"txt" inDirectory:@"gazecapture789"];
     lines = [[NSString stringWithContentsOfFile:textPath] componentsSeparatedByString:@"\n"];
     
     nse = [lines objectEnumerator];
@@ -366,7 +336,7 @@
     }
     
     // Dimensions: 1 1 128 2
-    textPath = [[NSBundle mainBundle] pathForResource:@"concat_full_weights2" ofType:@"txt"];
+    textPath = [[NSBundle mainBundle] pathForResource:@"concat_full_weights2" ofType:@"txt" inDirectory:@"gazecapture789"];
     lines = [[NSString stringWithContentsOfFile:textPath] componentsSeparatedByString:@"\n"];
     
     nse = [lines objectEnumerator];
@@ -377,7 +347,7 @@
     }
     
     // Dimensions 1 1 1 2
-    textPath = [[NSBundle mainBundle] pathForResource:@"concat_full_bias2" ofType:@"txt"];
+    textPath = [[NSBundle mainBundle] pathForResource:@"concat_full_bias2" ofType:@"txt" inDirectory:@"gazecapture789"];
     lines = [[NSString stringWithContentsOfFile:textPath] componentsSeparatedByString:@"\n"];
     
     nse = [lines objectEnumerator];
@@ -403,6 +373,7 @@
     jpcnn_destroy_network(face_network);
     jpcnn_destroy_network(left_eye_network);
     jpcnn_destroy_network(right_eye_network);
+//    CGPoint pp = CGPointMake(23.0, 23.0);
     return pp;
     // END: FINAL CONCAT
 }
