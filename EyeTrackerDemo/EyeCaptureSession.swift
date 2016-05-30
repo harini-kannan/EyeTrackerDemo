@@ -620,11 +620,10 @@ class EyeCaptureSession: NSObject, AVCaptureMetadataOutputObjectsDelegate, AVCap
         var leftEyeRect, rightEyeRect: CGRect
         var leftEyeClosed, rightEyeClosed: Bool?
         let faceRect = faceImage.extent
-        
         switch selectedDetector {
         case .CIDetector:
             // Downscale the image for better performance.
-            let newWidth = CGFloat(100)
+            let newWidth = CGFloat(219)
             let scaleFactor = newWidth / faceRect.width
             let scaleFactorInverse = faceRect.width / newWidth
             
@@ -655,12 +654,14 @@ class EyeCaptureSession: NSObject, AVCaptureMetadataOutputObjectsDelegate, AVCap
                 
                 // Decide how big the box surrounding each eye should be.
                 // CIDetector only gives points, not boxes.
+//                let boxSize = faceImage.extent.size.width * 0.2
                 let boxSize = faceWidthResized * 0.2
                 let boxSizeHalf = boxSize / 2
                 
                 if let debugView = self.debugView {  // Optional binding is necessary here, as an external tap event could make the debugView nil after verifying that it's not nil.
                     // This could probably be drawn onto the context directly from the CIImage, though this is just for debugging.
                     var debugImage = UIImage(CGImage: self.faceImageContext.createCGImage(faceImageResized, fromRect: faceImageResized.extent))
+                    print("printing debugImage1 width ", debugImage.size.width, "printing debugImage1 height ", debugImage.size.height)
                     // Draw the boxes directly onto the image.
                     UIGraphicsBeginImageContext(debugImage.size)
                     debugImage.drawAtPoint(CGPointZero)
@@ -678,6 +679,7 @@ class EyeCaptureSession: NSObject, AVCaptureMetadataOutputObjectsDelegate, AVCap
                     CGContextStrokeRectWithWidth(ctx, leftEyeRectDebug, 1.0)
                     CGContextStrokeRectWithWidth(ctx, rightEyeRectDebug, 1.0)
                     debugImage = UIGraphicsGetImageFromCurrentImageContext()
+                    print("printing debugImage2 width ", debugImage.size.width, "printing debugImage2 height ", debugImage.size.height)
                     UIGraphicsEndImageContext()
                     dispatch_async(dispatch_get_main_queue()) {
                         debugView.image = debugImage
@@ -690,14 +692,26 @@ class EyeCaptureSession: NSObject, AVCaptureMetadataOutputObjectsDelegate, AVCap
                         x: bestFace.leftEyePosition.x - boxSizeHalf,
                         y: faceHeightResized - (bestFace.leftEyePosition.y - boxSizeHalf) - boxSize,
                         width: boxSize, height: boxSize)
-                    
+
                     let rightEyeImage = UIImage(CGImage: self.faceImageContext.createCGImage(faceImageResized, fromRect: faceImageResized.extent))
                     
+//                    let rightEyeRectDebug = CGRect(
+//                        x: bestFace.leftEyePosition.x - boxSizeHalf,
+//                        y: faceImageResized.extent.size.height - (bestFace.leftEyePosition.y - boxSizeHalf) - boxSize,
+//                        width: boxSize, height: boxSize)
+//                    
+//                    let rightEyeImage = UIImage(CGImage: self.faceImageContext.createCGImage(faceImage, fromRect: faceImage.extent))
+
+                    print("printing bestFace width ", bestFace.bounds.width, "printing bestFace height ", bestFace.bounds.height)
+                    
+                    print("printing faceImage width ", faceImage.extent.size.width, "printing faceImage height ", faceImage.extent.size.height)
+                    print("printing rightEyeImage width ", rightEyeImage.size.width, "printing rightEyeImage height ", rightEyeImage.size.height)
                     // Create bitmap image from context using the rect
                     let imageRef: CGImageRef = CGImageCreateWithImageInRect(rightEyeImage.CGImage, rightEyeRectDebug)!
                     // Create a new image based on the imageRef and rotate back to the original orientation
                     let rightEyeDebugImage: UIImage = UIImage(CGImage: imageRef)
-                    
+                    print("printing rightEyeRectDebug width ", rightEyeRectDebug.size.width, "printing rightEyeRectDebug height ", rightEyeRectDebug.size.height)
+                    print("printing rightEyeDebug width ", rightEyeDebugImage.size.width, "printing rightEyeDebug height ", rightEyeDebugImage.size.height)
                     dispatch_async(dispatch_get_main_queue()) {
                         rightEyeView.image = rightEyeDebugImage
                     }

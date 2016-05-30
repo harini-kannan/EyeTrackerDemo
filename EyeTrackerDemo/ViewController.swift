@@ -66,13 +66,13 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
     
     // MARK: - EyeCaptureSessionDelegate Methods
     func processFace(ff: FaceFrame) {
-        if leftEyeView.image != nil && rightEyeView.image != nil && debugView.image != nil && ff.faceRect != nil {
+        if leftEyeView.image != nil && rightEyeView.image != nil && ff.faceCrop != nil && ff.faceRect != nil {
 //            print(self.view.bounds.size.width, self.view.bounds.size.height)
 //            print(ff.faceRect!.origin.x, ff.faceRect!.origin.y, ff.faceRect!.size.width, ff.faceRect!.size.height)
             let size = CGSize(width: 219, height: 219)
             let resizedLeftEye = resizeImage(leftEyeView.image!, targetSize: size)
             let resizedRightEye = resizeImage(rightEyeView.image!, targetSize: size)
-            let resizedFace = resizeImage(debugView.image!, targetSize: size)
+            let resizedFace = resizeImage(ff.faceCrop!, targetSize: size)
             
             let frameHeight = Double(Float(ff.fullFrameSize!.width))
             let frameWidth = Double(Float(ff.fullFrameSize!.height))
@@ -82,20 +82,20 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
             let faceGridW = Double(Float(ff.faceRect!.size.width))
             let faceGridH = Double(Float(ff.faceRect!.size.height))
             let faceGrid:[Float] = createFaceGrid(frameWidth, frameH: frameHeight, gridW: 25.0, gridH: 25.0, labelFaceX: faceGridX, labelFaceY: faceGridY, labelFaceW: faceGridW, labelFaceH: faceGridH)
+            let neuralNet = TestNtwkFile()
+            let output = neuralNet.testNtwkFile(faceGrid, firstImage: resizedLeftEye, secondImage: resizedRightEye, thirdImage: resizedFace)
             
-//            let output = TestNtwkFile.testNtwkFile(faceGrid, firstImage: resizedLeftEye, secondImage: resizedRightEye, thirdImage: resizedFace)
-//            
-//            var orientation = UIDevice.currentDevice().orientation.rawValue
-//            
-//            let frameSizePortrait = CGSize(width: min(view.frame.size.width, view.frame.size.height), height: max(view.frame.size.width, view.frame.size.height));
-//
-//            var frameSize = frameSizePortrait
-//            
-//            if orientation == 3 || orientation == 4 {
-//                frameSize = CGSize(width: frameSizePortrait.height, height: frameSizePortrait.width)
-//            }
-//            
-//            convertCoords(Float(output.x), yCam: Float(output.y), deviceName: "iPhone 6s", labelOrientation: orientation, labelActiveScreenW: Int(frameSize.width), labelActiveScreenH: Int(frameSize.height), useCM: false)
+            var orientation = UIDevice.currentDevice().orientation.rawValue
+            
+            let frameSizePortrait = CGSize(width: min(view.frame.size.width, view.frame.size.height), height: max(view.frame.size.width, view.frame.size.height));
+
+            var frameSize = frameSizePortrait
+            
+            if orientation == 3 || orientation == 4 {
+                frameSize = CGSize(width: frameSizePortrait.height, height: frameSizePortrait.width)
+            }
+            
+            convertCoords(Float(output.x), yCam: Float(output.y), deviceName: "iPhone 6s", labelOrientation: orientation, labelActiveScreenW: Int(frameSize.width), labelActiveScreenH: Int(frameSize.height), useCM: false)
 
         }
 
@@ -483,12 +483,12 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
 
     func setup() {
         
-        var neuralNet = TestNtwkFile()
-        let startTime = CFAbsoluteTimeGetCurrent()
-        let output = neuralNet.testNtwkFile(nil, firstImage: nil, secondImage: nil, thirdImage: nil)
-//        let output = TestNtwkFile.testNtwkFile(nil, firstImage: nil, secondImage: nil, thirdImage: nil)
-        let timeElapsed = CFAbsoluteTimeGetCurrent() - startTime
-        print("Time elapsed for \(title): \(timeElapsed) s")
+//        let neuralNet = TestNtwkFile()
+//        let startTime = CFAbsoluteTimeGetCurrent()
+//        let output = neuralNet.testNtwkFile(nil, firstImage: nil, secondImage: nil, thirdImage: nil)
+////        let output = TestNtwkFile.testNtwkFile(nil, firstImage: nil, secondImage: nil, thirdImage: nil)
+//        let timeElapsed = CFAbsoluteTimeGetCurrent() - startTime
+//        print("Time elapsed for \(title): \(timeElapsed) s")
         redLayer.frame = CGRect(x: 100, y: 100, width: 50, height: 50)
         redLayer.backgroundColor = UIColor.redColor().CGColor
         
