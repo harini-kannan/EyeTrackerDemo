@@ -15,6 +15,7 @@
 
 @interface TestNtwkFile : NSObject
 - (CGPoint)testNtwkFile: (NSArray*)faceGrid firstImage:(UIImage*) leftEye secondImage:(UIImage*) rightEye thirdImage:(UIImage*) face;
+- (void) populateInput: (NSArray*)faceGrid firstImage:(UIImage*) leftEye secondImage:(UIImage*) rightEye thirdImage:(UIImage*) face debugFlag:(bool) debug;
 @end
 #endif /* Header_h */
 

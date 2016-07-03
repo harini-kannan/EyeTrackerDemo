@@ -273,8 +273,6 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
         let smoothPoint = kalmanFilter.processPoint(toPoint)
         self.newPosition = smoothPoint
         
-        print (index, xOut, yOut)
-        
 //        print("PRINTING OUTPUTS TO CONVERT COORDS")
 //        print(xOut, yOut)
 //        print("END PRINTING OUTPUTS TO CONVERT COORDS")
@@ -302,8 +300,6 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
         xHi = min(Int(round(gridW) - 1), max(0, xHi))
         yLo = min(Int(round(gridH) - 1), max(0, yLo))
         yHi = min(Int(round(gridH) - 1), max(0, yHi))
-        
-        print (xLo, xHi, yLo, yHi)
         
         for var i=yLo; i < yHi + 1; i++ {
             for var j=xLo; j < xHi+1; j++ { // SHOULD J BE AT XHI OR XHI - 1
