@@ -83,9 +83,9 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
             let faceGridH = Double(Float(ff.faceRect!.size.height))
             let faceGrid:[Float] = createFaceGrid(frameWidth, frameH: frameHeight, gridW: 25.0, gridH: 25.0, labelFaceX: faceGridX, labelFaceY: faceGridY, labelFaceW: faceGridW, labelFaceH: faceGridH)
             let neuralNet = TestNtwkFile()
-            let output = neuralNet.testNtwkFile(faceGrid, firstImage: resizedLeftEye, secondImage: resizedRightEye, thirdImage: resizedFace)
+            let output = neuralNet.runNeuralNetwork(faceGrid, firstImage: resizedLeftEye, secondImage: resizedRightEye, thirdImage: resizedFace)
             
-            var orientation = UIDevice.currentDevice().orientation.rawValue
+            let orientation = UIDevice.currentDevice().orientation.rawValue
             
             let frameSizePortrait = CGSize(width: min(view.frame.size.width, view.frame.size.height), height: max(view.frame.size.width, view.frame.size.height));
 
