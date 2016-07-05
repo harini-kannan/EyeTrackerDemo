@@ -216,45 +216,7 @@
 
 - (CGPoint)runNeuralNetwork: (NSArray*)faceGrid firstImage:(UIImage*) leftEye secondImage:(UIImage*) rightEye thirdImage:(UIImage*) face{
 
-//    self->populateInput(faceGrid, leftEye, rightEye, face, true);
-    bool debug = true;
-    if (debug) {
-        NSString* imagePath = [[NSBundle mainBundle] pathForResource:@"test_left_eye219" ofType:@"jpg"];
-        leftEyeImage = jpcnn_create_image_buffer_from_file([imagePath UTF8String]);
-        
-        NSString* rightEyeImagePath = [[NSBundle mainBundle] pathForResource:@"test_right_eye219" ofType:@"jpg"];
-        rightEyeImage = jpcnn_create_image_buffer_from_file([rightEyeImagePath UTF8String]);
-        
-        NSString* faceImagePath = [[NSBundle mainBundle] pathForResource:@"test_face219" ofType:@"jpg"];
-        faceImage = jpcnn_create_image_buffer_from_file([faceImagePath UTF8String]);
-        
-        NSString* textPath = [[NSBundle mainBundle] pathForResource:@"test_facegrid_sunday" ofType:@"txt"];
-        NSArray* lines = [[NSString stringWithContentsOfFile:textPath encoding:NSUTF8StringEncoding error:nil] componentsSeparatedByString:@"\n"];
-        NSEnumerator* nse = [lines objectEnumerator];
-        int i = 0;
-        NSString* tmp;
-        while(tmp = [nse nextObject]) {
-            facegrid_input[i] = [tmp floatValue];
-            i++;
-        }
-    } else {
-        NSString *leftEyeSavedPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/LiveLeftEye.jpg"];
-        [UIImageJPEGRepresentation(leftEye, 1.0) writeToFile:leftEyeSavedPath atomically:YES];
-        leftEyeImage = jpcnn_create_image_buffer_from_file([leftEyeSavedPath UTF8String]);
-        
-        NSString *rightEyeSavedPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/LiveRightEye.jpg"];
-        [UIImageJPEGRepresentation(rightEye, 1.0) writeToFile:rightEyeSavedPath atomically:YES];
-        rightEyeImage = jpcnn_create_image_buffer_from_file([rightEyeSavedPath UTF8String]);
-        
-        NSString *faceSavedPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/LiveFace.jpg"];
-        [UIImageJPEGRepresentation(face, 1.0) writeToFile:faceSavedPath atomically:YES];
-        faceImage = jpcnn_create_image_buffer_from_file([faceSavedPath UTF8String]);
-        
-        for (int i=0; i < 625; i++) {
-            float f = [[faceGrid objectAtIndex:i] floatValue];
-            facegrid_input[i] = f;
-        }
-    }
+    [self populateInput:faceGrid firstImage:leftEye secondImage:rightEye thirdImage:face debugFlag:true];
     
     // BEGIN: LEFTEYE
     NSString* networkPath = [[NSBundle mainBundle] pathForResource:@"lefteye_219FC" ofType:@"ntwk"];
