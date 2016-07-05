@@ -214,12 +214,29 @@
     }
 }
 
+- (float*) classifyNtwk: (int)inputSize a:(void*) inputImage b:(UIImage*) ntwkFileName c:(NSString*) directory {
+    NSString* networkPath = [[NSBundle mainBundle] pathForResource:@"lefteye_219FC" ofType:@"ntwk"];
+    //    NSString* networkPath = [[NSBundle mainBundle] pathForResource:@"lefteye_iphone_vert" ofType:@"ntwk" inDirectory:@"iPhoneVertical"];
+    assert(networkPath != NULL);
+    void* left_eye_network = jpcnn_create_network(219, [networkPath UTF8String]);
+    assert(left_eye_network != NULL);
+    
+    float* LE_predictions;
+    int LE_predictionsLength;
+    char** LE_predictionsLabels;
+    int LE_predictionsLabelsLength;
+    jpcnn_classify_image(219, left_eye_network, leftEyeImage, 0, 0, &LE_predictions, &LE_predictionsLength, &LE_predictionsLabels, &LE_predictionsLabelsLength);
+    
+    jpcnn_destroy_image_buffer(leftEyeImage);
+    return LE_predictions;
+}
+
 - (CGPoint)runNeuralNetwork: (NSArray*)faceGrid firstImage:(UIImage*) leftEye secondImage:(UIImage*) rightEye thirdImage:(UIImage*) face{
 
     [self populateInput:faceGrid firstImage:leftEye secondImage:rightEye thirdImage:face debugFlag:true];
     
     // BEGIN: LEFTEYE
-    NSString* networkPath = [[NSBundle mainBundle] pathForResource:@"lefteye_219FC" ofType:@"ntwk"];
+    NSString* networkPath = [[NSBundle mainBundle] pathForResource:@"lefteye_219FC" ofType:@"ntwk" inDirectory:@"gazecapture789"];
 //    NSString* networkPath = [[NSBundle mainBundle] pathForResource:@"lefteye_iphone_vert" ofType:@"ntwk" inDirectory:@"iPhoneVertical"];
     assert(networkPath != NULL);
     void* left_eye_network = jpcnn_create_network(219, [networkPath UTF8String]);
@@ -236,7 +253,7 @@
     // END: LEFTEYE
     
     // BEGIN: RIGHTEYE
-    networkPath = [[NSBundle mainBundle] pathForResource:@"righteye_219FC" ofType:@"ntwk"];
+    networkPath = [[NSBundle mainBundle] pathForResource:@"righteye_219FC" ofType:@"ntwk" inDirectory:@"gazecapture789"];
 //    networkPath = [[NSBundle mainBundle] pathForResource:@"righteye_iphone_vert" ofType:@"ntwk" inDirectory:@"iPhoneVertical"];
     assert(networkPath != NULL);
     void* right_eye_network = jpcnn_create_network(219, [networkPath UTF8String]);
@@ -253,7 +270,7 @@
     // END: RIGHTEYE
 
     // BEGIN: FACE
-    networkPath = [[NSBundle mainBundle] pathForResource:@"face_219FC" ofType:@"ntwk"];
+    networkPath = [[NSBundle mainBundle] pathForResource:@"face_219FC" ofType:@"ntwk" inDirectory:@"gazecapture789"];
 //    networkPath = [[NSBundle mainBundle] pathForResource:@"face_iphone_vert" ofType:@"ntwk" inDirectory:@"iPhoneVertical"];
     assert(networkPath != NULL);
     void* face_network = jpcnn_create_network(219, [networkPath UTF8String]);
