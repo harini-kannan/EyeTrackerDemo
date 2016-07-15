@@ -13,6 +13,7 @@
 
 @implementation TestNtwkFile {
     
+    NSString* directory_name;
     void* leftEyeImage;
     void* rightEyeImage;
     void* faceImage;
@@ -39,13 +40,15 @@
     self = [super init];
     
     if (self) {
+        
+        directory_name = @"gazecapture789";
+        
         weights1 = malloc(sizeof(float) * 625 * 256);
         final_weights1 = malloc(sizeof(float) * 320*128);
         NSString *tmp;
         NSArray *lines;
         
-        NSString* textPath = [[NSBundle mainBundle] pathForResource:@"fg_fc1_bias" ofType:@"txt" inDirectory:@"gazecapture789"];
-//        NSString* textPath = [[NSBundle mainBundle] pathForResource:@"fg_fc1_bias" ofType:@"txt" inDirectory:@"iPhoneVertical"];
+        NSString* textPath = [[NSBundle mainBundle] pathForResource:@"fg_fc1_bias" ofType:@"txt" inDirectory:directory_name];
         lines = [[NSString stringWithContentsOfFile:textPath encoding:NSUTF8StringEncoding error:nil] componentsSeparatedByString:@"\n"];
         
         NSEnumerator *nse = [lines objectEnumerator];
@@ -54,8 +57,8 @@
             bias1[i] = [tmp floatValue];
             i++;
         }
-        textPath = [[NSBundle mainBundle] pathForResource:@"fg_fc1_weights" ofType:@"txt" inDirectory:@"gazecapture789"];
-//        textPath = [[NSBundle mainBundle] pathForResource:@"fg_fc1_weights" ofType:@"txt" inDirectory:@"iPhoneVertical"];
+
+        textPath = [[NSBundle mainBundle] pathForResource:@"fg_fc1_weights" ofType:@"txt" inDirectory:directory_name];
         lines = [[NSString stringWithContentsOfFile:textPath encoding:NSUTF8StringEncoding error:nil] componentsSeparatedByString:@"\n"];
         
         nse = [lines objectEnumerator];
@@ -67,8 +70,7 @@
             i++;
         }
         
-        textPath = [[NSBundle mainBundle] pathForResource:@"fg_fc2_weights" ofType:@"txt" inDirectory:@"gazecapture789"];
-//        textPath = [[NSBundle mainBundle] pathForResource:@"fg_fc2_weights" ofType:@"txt" inDirectory:@"iPhoneVertical"];
+        textPath = [[NSBundle mainBundle] pathForResource:@"fg_fc2_weights" ofType:@"txt" inDirectory:directory_name];
         lines = [[NSString stringWithContentsOfFile:textPath encoding:NSUTF8StringEncoding error:nil] componentsSeparatedByString:@"\n"];
         
         nse = [lines objectEnumerator];
@@ -78,9 +80,7 @@
             i++;
         }
 
-        
-        textPath = [[NSBundle mainBundle] pathForResource:@"fg_fc2_bias" ofType:@"txt" inDirectory:@"gazecapture789"];
-//        textPath = [[NSBundle mainBundle] pathForResource:@"fg_fc2_bias" ofType:@"txt" inDirectory:@"iPhoneVertical"];
+        textPath = [[NSBundle mainBundle] pathForResource:@"fg_fc2_bias" ofType:@"txt" inDirectory:directory_name];
         lines = [[NSString stringWithContentsOfFile:textPath encoding:NSUTF8StringEncoding error:nil] componentsSeparatedByString:@"\n"];
         
         nse = [lines objectEnumerator];
@@ -92,8 +92,7 @@
 
         // EYES CONCAT
         // Bias dimensions are 1 1 1 128
-        NSString* eyesTextPath = [[NSBundle mainBundle] pathForResource:@"fc1_bias" ofType:@"txt" inDirectory:@"gazecapture789"];
-//        NSString* eyesTextPath = [[NSBundle mainBundle] pathForResource:@"fc1_bias" ofType:@"txt" inDirectory:@"iPhoneVertical"];
+        NSString* eyesTextPath = [[NSBundle mainBundle] pathForResource:@"fc1_bias" ofType:@"txt" inDirectory:directory_name];
         lines = [[NSString stringWithContentsOfFile:eyesTextPath encoding:NSUTF8StringEncoding error:nil] componentsSeparatedByString:@"\n"];
         
         NSEnumerator *eyes_nse = [lines objectEnumerator];
@@ -112,8 +111,8 @@
             eyes_debug_input[i] = [tmp floatValue];
             i++;
         }
-        textPath = [[NSBundle mainBundle] pathForResource:@"fc2_weights" ofType:@"txt" inDirectory:@"gazecapture789"];
-//        textPath = [[NSBundle mainBundle] pathForResource:@"fc2_weights" ofType:@"txt" inDirectory:@"iPhoneVertical"];
+
+        textPath = [[NSBundle mainBundle] pathForResource:@"fc2_weights" ofType:@"txt" inDirectory:directory_name];
         lines = [[NSString stringWithContentsOfFile:textPath encoding:NSUTF8StringEncoding error:nil] componentsSeparatedByString:@"\n"];
         
         nse = [lines objectEnumerator];
@@ -125,8 +124,7 @@
         }
 
         // Dimensions: 1 1 1 128
-        textPath = [[NSBundle mainBundle] pathForResource:@"fc2_bias" ofType:@"txt" inDirectory:@"gazecapture789"];
-//        textPath = [[NSBundle mainBundle] pathForResource:@"fc2_bias" ofType:@"txt" inDirectory:@"iPhoneVertical"];
+        textPath = [[NSBundle mainBundle] pathForResource:@"fc2_bias" ofType:@"txt" inDirectory:directory_name];
         lines = [[NSString stringWithContentsOfFile:textPath encoding:NSUTF8StringEncoding error:nil] componentsSeparatedByString:@"\n"];
         
         nse = [lines objectEnumerator];
@@ -137,8 +135,7 @@
         }
         
         // Dimensions: 1 1 128 2
-        textPath = [[NSBundle mainBundle] pathForResource:@"fc3_weights" ofType:@"txt" inDirectory:@"gazecapture789"];
-//        textPath = [[NSBundle mainBundle] pathForResource:@"fc3_weights" ofType:@"txt" inDirectory:@"iPhoneVertical"];
+        textPath = [[NSBundle mainBundle] pathForResource:@"fc3_weights" ofType:@"txt" inDirectory:directory_name];
         lines = [[NSString stringWithContentsOfFile:textPath encoding:NSUTF8StringEncoding error:nil] componentsSeparatedByString:@"\n"];
         
         nse = [lines objectEnumerator];
@@ -149,8 +146,7 @@
         }
         
         // Dimensions 1 1 1 2
-        textPath = [[NSBundle mainBundle] pathForResource:@"fc3_bias" ofType:@"txt" inDirectory:@"gazecapture789"];
-//        textPath = [[NSBundle mainBundle] pathForResource:@"fc3_bias" ofType:@"txt" inDirectory:@"iPhoneVertical"];
+        textPath = [[NSBundle mainBundle] pathForResource:@"fc3_bias" ofType:@"txt" inDirectory:directory_name];
         lines = [[NSString stringWithContentsOfFile:textPath encoding:NSUTF8StringEncoding error:nil] componentsSeparatedByString:@"\n"];
         
         nse = [lines objectEnumerator];
@@ -214,30 +210,30 @@
     }
 }
 
-- (float*) classifyNtwk: (int)inputSize a:(void*) inputImage b:(UIImage*) ntwkFileName c:(NSString*) directory {
-    NSString* networkPath = [[NSBundle mainBundle] pathForResource:@"lefteye_219FC" ofType:@"ntwk"];
-    //    NSString* networkPath = [[NSBundle mainBundle] pathForResource:@"lefteye_iphone_vert" ofType:@"ntwk" inDirectory:@"iPhoneVertical"];
+- (float*) classifyNtwk: (int)inputSize a:(void*) inputImage b:(NSString*) ntwkFileName c:(NSString*) directory {
+    NSString* networkPath = [[NSBundle mainBundle] pathForResource:ntwkFileName ofType:@"ntwk" inDirectory:directory];
     assert(networkPath != NULL);
-    void* left_eye_network = jpcnn_create_network(219, [networkPath UTF8String]);
-    assert(left_eye_network != NULL);
+    void* network = jpcnn_create_network(inputSize, [networkPath UTF8String]);
+    assert(network != NULL);
     
-    float* LE_predictions;
-    int LE_predictionsLength;
-    char** LE_predictionsLabels;
-    int LE_predictionsLabelsLength;
-    jpcnn_classify_image(219, left_eye_network, leftEyeImage, 0, 0, &LE_predictions, &LE_predictionsLength, &LE_predictionsLabels, &LE_predictionsLabelsLength);
+    float* predictions;
+    int predictionsLength;
+    char** predictionsLabels;
+    int predictionsLabelsLength;
+    jpcnn_classify_image(inputSize, network, inputImage, 0, 0, &predictions, &predictionsLength, &predictionsLabels, &predictionsLabelsLength);
     
-    jpcnn_destroy_image_buffer(leftEyeImage);
-    return LE_predictions;
+    jpcnn_destroy_image_buffer(inputImage);
+//    jpcnn_destroy_network(network);
+    return predictions;
 }
 
 - (CGPoint)runNeuralNetwork: (NSArray*)faceGrid firstImage:(UIImage*) leftEye secondImage:(UIImage*) rightEye thirdImage:(UIImage*) face{
 
-    [self populateInput:faceGrid firstImage:leftEye secondImage:rightEye thirdImage:face debugFlag:true];
+    [self populateInput:faceGrid firstImage:leftEye secondImage:rightEye thirdImage:face debugFlag:false];
     
     // BEGIN: LEFTEYE
-    NSString* networkPath = [[NSBundle mainBundle] pathForResource:@"lefteye_219FC" ofType:@"ntwk" inDirectory:@"gazecapture789"];
-//    NSString* networkPath = [[NSBundle mainBundle] pathForResource:@"lefteye_iphone_vert" ofType:@"ntwk" inDirectory:@"iPhoneVertical"];
+    
+    NSString* networkPath = [[NSBundle mainBundle] pathForResource:@"lefteye" ofType:@"ntwk" inDirectory:directory_name];
     assert(networkPath != NULL);
     void* left_eye_network = jpcnn_create_network(219, [networkPath UTF8String]);
     assert(left_eye_network != NULL);
@@ -250,11 +246,14 @@
     
     jpcnn_destroy_image_buffer(leftEyeImage);
     //jpcnn_destroy_network(network);
+    
     // END: LEFTEYE
     
     // BEGIN: RIGHTEYE
-    networkPath = [[NSBundle mainBundle] pathForResource:@"righteye_219FC" ofType:@"ntwk" inDirectory:@"gazecapture789"];
-//    networkPath = [[NSBundle mainBundle] pathForResource:@"righteye_iphone_vert" ofType:@"ntwk" inDirectory:@"iPhoneVertical"];
+    
+//    float* RE_predictions = [self classifyNtwk:219 a:rightEyeImage b:@"righteye_219FC" c:@"gazecapture789"];
+    
+    networkPath = [[NSBundle mainBundle] pathForResource:@"righteye" ofType:@"ntwk" inDirectory:directory_name];
     assert(networkPath != NULL);
     void* right_eye_network = jpcnn_create_network(219, [networkPath UTF8String]);
     assert(right_eye_network != NULL);
@@ -270,8 +269,7 @@
     // END: RIGHTEYE
 
     // BEGIN: FACE
-    networkPath = [[NSBundle mainBundle] pathForResource:@"face_219FC" ofType:@"ntwk" inDirectory:@"gazecapture789"];
-//    networkPath = [[NSBundle mainBundle] pathForResource:@"face_iphone_vert" ofType:@"ntwk" inDirectory:@"iPhoneVertical"];
+    networkPath = [[NSBundle mainBundle] pathForResource:@"face" ofType:@"ntwk" inDirectory:directory_name];
     assert(networkPath != NULL);
     void* face_network = jpcnn_create_network(219, [networkPath UTF8String]);
     assert(face_network != NULL);
@@ -288,8 +286,7 @@
     
     // BEGIN: FACEGRID
     
-    NSString* textPath = [[NSBundle mainBundle] pathForResource:@"fg_fc1_bias" ofType:@"txt" inDirectory:@"gazecapture789"];
-//    NSString* textPath = [[NSBundle mainBundle] pathForResource:@"fg_fc1_bias" ofType:@"txt" inDirectory:@"iPhoneVertical"];
+    NSString* textPath = [[NSBundle mainBundle] pathForResource:@"fg_fc1_bias" ofType:@"txt" inDirectory:directory_name];
     NSArray *lines = [[NSString stringWithContentsOfFile:textPath encoding:NSUTF8StringEncoding error:nil] componentsSeparatedByString:@"\n"];
     
     NSString *tmp;
@@ -309,8 +306,7 @@
     
     // BEGIN: EYES CONCAT
     
-    textPath = [[NSBundle mainBundle] pathForResource:@"fc1_weights" ofType:@"txt" inDirectory:@"gazecapture789"];
-//    textPath = [[NSBundle mainBundle] pathForResource:@"fc1_weights" ofType:@"txt" inDirectory:@"iPhoneVertical"];
+    textPath = [[NSBundle mainBundle] pathForResource:@"fc1_weights" ofType:@"txt" inDirectory:directory_name];
     
     float eyes_weights1[256*128];
     lines = [[NSString stringWithContentsOfFile:textPath encoding:NSUTF8StringEncoding error:nil] componentsSeparatedByString:@"\n"];
