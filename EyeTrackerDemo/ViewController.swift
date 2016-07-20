@@ -51,6 +51,7 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
     let circleRadius = CGFloat(25)
     
     var newPosition: CGPoint?
+    let neuralNet = TestNtwkFile()
     
     // From: http://iosdevcenters.blogspot.com/2015/12/how-to-resize-image-in-swift-in-ios.html
     func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
@@ -67,8 +68,6 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
     // MARK: - EyeCaptureSessionDelegate Methods
     func processFace(ff: FaceFrame) {
         if leftEyeView.image != nil && rightEyeView.image != nil && ff.faceCrop != nil && ff.faceRect != nil {
-//            print(self.view.bounds.size.width, self.view.bounds.size.height)
-//            print(ff.faceRect!.origin.x, ff.faceRect!.origin.y, ff.faceRect!.size.width, ff.faceRect!.size.height)
             let size = CGSize(width: 219, height: 219)
             let resizedLeftEye = resizeImage(leftEyeView.image!, targetSize: size)
             let resizedRightEye = resizeImage(rightEyeView.image!, targetSize: size)
@@ -82,8 +81,13 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
             let faceGridW = Double(Float(ff.faceRect!.size.width))
             let faceGridH = Double(Float(ff.faceRect!.size.height))
             let faceGrid:[Float] = createFaceGrid(frameWidth, frameH: frameHeight, gridW: 25.0, gridH: 25.0, labelFaceX: faceGridX, labelFaceY: faceGridY, labelFaceW: faceGridW, labelFaceH: faceGridH)
-            let neuralNet = TestNtwkFile()
-            let output = neuralNet.runNeuralNetwork(faceGrid, firstImage: resizedLeftEye, secondImage: resizedRightEye, thirdImage: resizedFace)
+            
+            let startTime = CFAbsoluteTimeGetCurrent()
+            
+            let output = self.neuralNet.runNeuralNetwork(faceGrid, firstImage: resizedLeftEye, secondImage: resizedRightEye, thirdImage: resizedFace)
+            
+            let timeElapsed = CFAbsoluteTimeGetCurrent() - startTime
+            print("Run time: \(timeElapsed) s")
             
             let orientation = UIDevice.currentDevice().orientation.rawValue
             
@@ -211,9 +215,6 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
     
     // Adapted from Kyle's cam2screen.m
     func convertCoords(xCam: Float, yCam: Float, deviceName: String, labelOrientation: Int, labelActiveScreenW: Int, labelActiveScreenH: Int, useCM: Bool){
-//        print("PRINTING INPUTS TO CONVERT COORDS")
-//        print(xCam, yCam, deviceName, labelOrientation, labelActiveScreenW, labelActiveScreenH, useCM)
-//        print("END PRINTING INPUTS TO CONVERT COORDS")
         
         // First, convert input to millimeters to be compatible with AppleDeviceData.mat
         var xOut = xCam * 10
@@ -268,22 +269,16 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
         }
         
         let toPoint: CGPoint = CGPointMake(CGFloat(xOut), CGFloat(yOut))
-
-        let kalmanFilter = KalmanFilter()
-        let smoothPoint = kalmanFilter.processPoint(toPoint)
-        self.newPosition = smoothPoint
+        self.newPosition = toPoint
         
-//        print("PRINTING OUTPUTS TO CONVERT COORDS")
-//        print(xOut, yOut)
-//        print("END PRINTING OUTPUTS TO CONVERT COORDS")
+//        let kalmanFilter = KalmanFilter()
+//        let smoothPoint = kalmanFilter.processPoint(toPoint)
+//        self.newPosition = smoothPoint
         
     }
     
     // Adapted from Kyle's facerect2grid.m
     func createFaceGrid(frameW: Double, frameH: Double, gridW: Double, gridH: Double, labelFaceX: Double, labelFaceY: Double, labelFaceW: Double, labelFaceH: Double) -> Array<Float> {
-//        print("BEGIN PRINTING PARAMETERS")
-//        print (frameW, frameH, gridW, gridH, labelFaceX, labelFaceY, labelFaceW, labelFaceH)
-//        print("END PRINTING PARAMETERS")
         let scaleX = gridW / frameW
         let scaleY = gridH / frameH
         var grid = Array(count: Int(round(gridH)), repeatedValue: Array(count: Int(round(gridW)), repeatedValue: 0.0))
@@ -302,17 +297,12 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
         yHi = min(Int(round(gridH) - 1), max(0, yHi))
         
         for var i=yLo; i < yHi + 1; i++ {
-            for var j=xLo; j < xHi+1; j++ { // SHOULD J BE AT XHI OR XHI - 1
+            for var j=xLo; j < xHi+1; j++ {
                 flattenedGrid[25 * i + j] = 1.0
                 grid[i][j] = 1.0
             }
         }
         
-//        print("BEGIN PRINTING OUTPUT")
-//        for var i=0; i < 625; i++ {
-//            print(flattenedGrid[i])
-//        }
-//        print("END PRINTING OUTPUT")
         return flattenedGrid
     }
     
@@ -442,10 +432,6 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
 
         setup()
 
-//        print("A MOO POINT")
-//        let faceGrid:[Float] = createFaceGrid(375.0, frameH: 667.0, gridW: 25.0, gridH: 25.0, labelFaceX: 91.6927185058594, labelFaceY: 267.464324951172, labelFaceW: 274.834564208984, labelFaceH: 274.319366455078)
-//        print("A MOO POINT")
-
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -501,22 +487,6 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
         redLayer.shadowRadius = 3
         
         self.videoView.layer.addSublayer(redLayer)
-        
-        
-        // Create a blank animation using the keyPath "cornerRadius", the property we want to animate
-//        let animation = CABasicAnimation(keyPath: "shadowRadius")
-//        
-//        // Set the starting value
-//        animation.fromValue = redLayer.cornerRadius
-//        
-//        // Set the completion value
-//        animation.toValue = 0
-//        
-//        // How may times should the animation repeat?
-//        animation.repeatCount = 1000
-//        
-//        // Finally, add the animation to the layer
-//        redLayer.addAnimation(animation, forKey: "cornerRadius")
         
         circleTimer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: Selector("moveToPositionWithTimer"), userInfo: nil, repeats: true)
     }

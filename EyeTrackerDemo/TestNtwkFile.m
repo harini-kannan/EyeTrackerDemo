@@ -19,10 +19,12 @@
     void* faceImage;
     float facegrid_input[625];
     
+    void* left_eye_network;
+    void* right_eye_network;
+    void* face_network;
+    
     float *weights1;
-    
     float bias1[256];
-    
     float weights2[256*128];
     float bias2[128];
     
@@ -38,13 +40,14 @@
 
 - (id)init {
     self = [super init];
-    
+    NSLog(@"Before initializing the network\n");
     if (self) {
         
-        directory_name = @"gazecapture789";
+        NSLog(@"Initializing the network\n");
+        directory_name = @"iPhoneVertical";
         
         weights1 = malloc(sizeof(float) * 625 * 256);
-        final_weights1 = malloc(sizeof(float) * 320*128);
+        final_weights1 = malloc(sizeof(float) * 320 * 128);
         NSString *tmp;
         NSArray *lines;
         
@@ -155,6 +158,8 @@
             final_bias2[i] = [tmp floatValue];
             i++;
         }
+        
+        NSLog(@"Done initializing the network\n");
     }
     
     return self;
@@ -230,13 +235,23 @@
 - (CGPoint)runNeuralNetwork: (NSArray*)faceGrid firstImage:(UIImage*) leftEye secondImage:(UIImage*) rightEye thirdImage:(UIImage*) face{
 
     [self populateInput:faceGrid firstImage:leftEye secondImage:rightEye thirdImage:face debugFlag:false];
-    
-    // BEGIN: LEFTEYE
-    
+   
     NSString* networkPath = [[NSBundle mainBundle] pathForResource:@"lefteye" ofType:@"ntwk" inDirectory:directory_name];
     assert(networkPath != NULL);
-    void* left_eye_network = jpcnn_create_network(219, [networkPath UTF8String]);
+    left_eye_network = jpcnn_create_network(219, [networkPath UTF8String]);
     assert(left_eye_network != NULL);
+    
+    networkPath = [[NSBundle mainBundle] pathForResource:@"righteye" ofType:@"ntwk" inDirectory:directory_name];
+    assert(networkPath != NULL);
+    right_eye_network = jpcnn_create_network(219, [networkPath UTF8String]);
+    assert(right_eye_network != NULL);
+    
+    networkPath = [[NSBundle mainBundle] pathForResource:@"face" ofType:@"ntwk" inDirectory:directory_name];
+    assert(networkPath != NULL);
+    face_network = jpcnn_create_network(219, [networkPath UTF8String]);
+    assert(face_network != NULL);
+    
+    // BEGIN: LEFTEYE
     
     float* LE_predictions;
     int LE_predictionsLength;
@@ -253,11 +268,6 @@
     
 //    float* RE_predictions = [self classifyNtwk:219 a:rightEyeImage b:@"righteye_219FC" c:@"gazecapture789"];
     
-    networkPath = [[NSBundle mainBundle] pathForResource:@"righteye" ofType:@"ntwk" inDirectory:directory_name];
-    assert(networkPath != NULL);
-    void* right_eye_network = jpcnn_create_network(219, [networkPath UTF8String]);
-    assert(right_eye_network != NULL);
-    
     float* RE_predictions;
     int RE_predictionsLength;
     char** RE_predictionsLabels;
@@ -269,10 +279,6 @@
     // END: RIGHTEYE
 
     // BEGIN: FACE
-    networkPath = [[NSBundle mainBundle] pathForResource:@"face" ofType:@"ntwk" inDirectory:directory_name];
-    assert(networkPath != NULL);
-    void* face_network = jpcnn_create_network(219, [networkPath UTF8String]);
-    assert(face_network != NULL);
     
     float* F_predictions;
     int F_predictionsLength;
@@ -336,9 +342,9 @@
     CGPoint pp = CGPointMake(final_predictions[0], final_predictions[1]);
 //    CGPoint pp = CGPointMake(final_predictions[0], final_predictions[1]*1.8);
     
-    free(weights1);
-    free(final_weights1);
-
+//    free(weights1);
+//    free(final_weights1);
+    
     jpcnn_destroy_network(face_network);
     jpcnn_destroy_network(left_eye_network);
     jpcnn_destroy_network(right_eye_network);
