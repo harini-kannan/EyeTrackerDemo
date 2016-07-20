@@ -15,7 +15,7 @@
 
 @interface TestNtwkFile : NSObject
 - (CGPoint)runNeuralNetwork: (NSArray*)faceGrid firstImage:(UIImage*) leftEye secondImage:(UIImage*) rightEye thirdImage:(UIImage*) face;
-- (void) populateInput: (NSArray*)faceGrid firstImage:(UIImage*) leftEye secondImage:(UIImage*) rightEye thirdImage:(UIImage*) face debugFlag:(bool) debug;
+- (void) populateInput: (NSArray*)faceGrid firstImage:(UIImage*) leftEye secondImage:(UIImage*) rightEye thirdImage:(UIImage*) face;
 - (float*) classifyNtwk: (int)inputSize a:(void*) inputImage b:(NSString*) ntwkFileName c:(NSString*) directory;
 @end
 #endif /* Header_h */

@@ -269,11 +269,14 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
         }
         
         let toPoint: CGPoint = CGPointMake(CGFloat(xOut), CGFloat(yOut))
-        self.newPosition = toPoint
+//        self.newPosition = toPoint
         
-//        let kalmanFilter = KalmanFilter()
-//        let smoothPoint = kalmanFilter.processPoint(toPoint)
-//        self.newPosition = smoothPoint
+        let kalmanFilter = KalmanFilter()
+        let smoothPoint = kalmanFilter.processPoint(toPoint)
+        self.newPosition = smoothPoint
+        
+        print("Old point is (\(toPoint.x), \(toPoint.y)), and the new point is (\(smoothPoint.x), \(smoothPoint.y))")
+        
         
     }
     

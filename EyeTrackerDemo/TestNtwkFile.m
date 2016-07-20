@@ -14,6 +14,8 @@
 @implementation TestNtwkFile {
     
     NSString* directory_name;
+    bool debug;
+    
     void* leftEyeImage;
     void* rightEyeImage;
     void* faceImage;
@@ -23,13 +25,12 @@
     void* right_eye_network;
     void* face_network;
     
-    float *weights1;
-    float bias1[256];
-    float weights2[256*128];
-    float bias2[128];
+    float *facegrid_weights1;
+    float facegrid_bias1[256];
+    float facegrid_weights2[256*128];
+    float facegrid_bias2[128];
     
     float eyes_bias1[128];
-    float eyes_debug_input[256];
     
     float *final_weights1;
     float final_bias1[128];
@@ -45,55 +46,49 @@
         
         NSLog(@"Initializing the network\n");
         directory_name = @"iPhoneVertical";
+        debug = true;
         
-        weights1 = malloc(sizeof(float) * 625 * 256);
-        final_weights1 = malloc(sizeof(float) * 320 * 128);
+        // Reading facegrid weights and biases
+        facegrid_weights1 = malloc(sizeof(float) * 625 * 256);
         NSString *tmp;
-        NSArray *lines;
-        
-        NSString* textPath = [[NSBundle mainBundle] pathForResource:@"fg_fc1_bias" ofType:@"txt" inDirectory:directory_name];
-        lines = [[NSString stringWithContentsOfFile:textPath encoding:NSUTF8StringEncoding error:nil] componentsSeparatedByString:@"\n"];
-        
+        NSString* textPath = [[NSBundle mainBundle] pathForResource:@"fg_fc1_weights" ofType:@"txt" inDirectory:directory_name];
+        NSArray *lines = [[NSString stringWithContentsOfFile:textPath encoding:NSUTF8StringEncoding error:nil] componentsSeparatedByString:@"\n"];
         NSEnumerator *nse = [lines objectEnumerator];
         int i = 0;
-        while(tmp = [nse nextObject]) {
-            bias1[i] = [tmp floatValue];
-            i++;
-        }
-
-        textPath = [[NSBundle mainBundle] pathForResource:@"fg_fc1_weights" ofType:@"txt" inDirectory:directory_name];
-        lines = [[NSString stringWithContentsOfFile:textPath encoding:NSUTF8StringEncoding error:nil] componentsSeparatedByString:@"\n"];
-        
-        nse = [lines objectEnumerator];
-        i = 0;
-
         while(i < 625*256) {
             tmp = [nse nextObject];
-            weights1[i] = [tmp floatValue];
+            facegrid_weights1[i] = [tmp floatValue];
+            i++;
+        }
+        
+        textPath = [[NSBundle mainBundle] pathForResource:@"fg_fc1_bias" ofType:@"txt" inDirectory:directory_name];
+        lines = [[NSString stringWithContentsOfFile:textPath encoding:NSUTF8StringEncoding error:nil] componentsSeparatedByString:@"\n"];
+        nse = [lines objectEnumerator];
+        i = 0;
+        while(tmp = [nse nextObject]) {
+            facegrid_bias1[i] = [tmp floatValue];
             i++;
         }
         
         textPath = [[NSBundle mainBundle] pathForResource:@"fg_fc2_weights" ofType:@"txt" inDirectory:directory_name];
         lines = [[NSString stringWithContentsOfFile:textPath encoding:NSUTF8StringEncoding error:nil] componentsSeparatedByString:@"\n"];
-        
         nse = [lines objectEnumerator];
         i = 0;
         while(tmp = [nse nextObject]) {
-            weights2[i] = [tmp floatValue];
+            facegrid_weights2[i] = [tmp floatValue];
             i++;
         }
 
         textPath = [[NSBundle mainBundle] pathForResource:@"fg_fc2_bias" ofType:@"txt" inDirectory:directory_name];
         lines = [[NSString stringWithContentsOfFile:textPath encoding:NSUTF8StringEncoding error:nil] componentsSeparatedByString:@"\n"];
-        
         nse = [lines objectEnumerator];
         i = 0;
         while(tmp = [nse nextObject]) {
-            bias2[i] = [tmp floatValue];
+            facegrid_bias2[i] = [tmp floatValue];
             i++;
         }
 
-        // EYES CONCAT
+        // Reading weights and biases for eye concat
         // Bias dimensions are 1 1 1 128
         NSString* eyesTextPath = [[NSBundle mainBundle] pathForResource:@"fc1_bias" ofType:@"txt" inDirectory:directory_name];
         lines = [[NSString stringWithContentsOfFile:eyesTextPath encoding:NSUTF8StringEncoding error:nil] componentsSeparatedByString:@"\n"];
@@ -105,19 +100,10 @@
             i++;
         }
 
-        textPath = [[NSBundle mainBundle] pathForResource:@"concat_eyes_input" ofType:@"txt"];
-        lines = [[NSString stringWithContentsOfFile:textPath encoding:NSUTF8StringEncoding error:nil] componentsSeparatedByString:@"\n"];
-
-        nse = [lines objectEnumerator];
-        i = 0;
-        while(tmp = [nse nextObject]) {
-            eyes_debug_input[i] = [tmp floatValue];
-            i++;
-        }
-
+        // Reading weights and biases for final concat
+        final_weights1 = malloc(sizeof(float) * 320 * 128);
         textPath = [[NSBundle mainBundle] pathForResource:@"fc2_weights" ofType:@"txt" inDirectory:directory_name];
         lines = [[NSString stringWithContentsOfFile:textPath encoding:NSUTF8StringEncoding error:nil] componentsSeparatedByString:@"\n"];
-        
         nse = [lines objectEnumerator];
         i = 0;
         while(i < 320*128) {
@@ -129,7 +115,6 @@
         // Dimensions: 1 1 1 128
         textPath = [[NSBundle mainBundle] pathForResource:@"fc2_bias" ofType:@"txt" inDirectory:directory_name];
         lines = [[NSString stringWithContentsOfFile:textPath encoding:NSUTF8StringEncoding error:nil] componentsSeparatedByString:@"\n"];
-        
         nse = [lines objectEnumerator];
         i = 0;
         while(tmp = [nse nextObject]) {
@@ -140,7 +125,6 @@
         // Dimensions: 1 1 128 2
         textPath = [[NSBundle mainBundle] pathForResource:@"fc3_weights" ofType:@"txt" inDirectory:directory_name];
         lines = [[NSString stringWithContentsOfFile:textPath encoding:NSUTF8StringEncoding error:nil] componentsSeparatedByString:@"\n"];
-        
         nse = [lines objectEnumerator];
         i = 0;
         while(tmp = [nse nextObject]) {
@@ -151,7 +135,6 @@
         // Dimensions 1 1 1 2
         textPath = [[NSBundle mainBundle] pathForResource:@"fc3_bias" ofType:@"txt" inDirectory:directory_name];
         lines = [[NSString stringWithContentsOfFile:textPath encoding:NSUTF8StringEncoding error:nil] componentsSeparatedByString:@"\n"];
-        
         nse = [lines objectEnumerator];
         i = 0;
         while(tmp = [nse nextObject]) {
@@ -165,16 +148,7 @@
     return self;
 }
 
-- (void) printIntermediates: (float*) predictions a:(int) predictionsLength {
-    for (int index = 0; index < predictionsLength; index += 1) {
-        const float predictionValue = predictions[index];
-        NSString* predictionLine = [NSString stringWithFormat: @"%0.2f\n", predictionValue];
-        NSLog(@"%@", predictionLine);
-    }
-    
-}
-
-- (void) populateInput: (NSArray*)faceGrid firstImage:(UIImage*) leftEye secondImage:(UIImage*) rightEye thirdImage:(UIImage*) face debugFlag:(bool) debug{
+- (void) populateInput: (NSArray*)faceGrid firstImage:(UIImage*) leftEye secondImage:(UIImage*) rightEye thirdImage:(UIImage*) face {
 
     if (debug) {
         NSString* imagePath = [[NSBundle mainBundle] pathForResource:@"test_left_eye219" ofType:@"jpg"];
@@ -215,26 +189,9 @@
     }
 }
 
-- (float*) classifyNtwk: (int)inputSize a:(void*) inputImage b:(NSString*) ntwkFileName c:(NSString*) directory {
-    NSString* networkPath = [[NSBundle mainBundle] pathForResource:ntwkFileName ofType:@"ntwk" inDirectory:directory];
-    assert(networkPath != NULL);
-    void* network = jpcnn_create_network(inputSize, [networkPath UTF8String]);
-    assert(network != NULL);
-    
-    float* predictions;
-    int predictionsLength;
-    char** predictionsLabels;
-    int predictionsLabelsLength;
-    jpcnn_classify_image(inputSize, network, inputImage, 0, 0, &predictions, &predictionsLength, &predictionsLabels, &predictionsLabelsLength);
-    
-    jpcnn_destroy_image_buffer(inputImage);
-//    jpcnn_destroy_network(network);
-    return predictions;
-}
-
 - (CGPoint)runNeuralNetwork: (NSArray*)faceGrid firstImage:(UIImage*) leftEye secondImage:(UIImage*) rightEye thirdImage:(UIImage*) face{
 
-    [self populateInput:faceGrid firstImage:leftEye secondImage:rightEye thirdImage:face debugFlag:false];
+    [self populateInput:faceGrid firstImage:leftEye secondImage:rightEye thirdImage:face];
    
     NSString* networkPath = [[NSBundle mainBundle] pathForResource:@"lefteye" ofType:@"ntwk" inDirectory:directory_name];
     assert(networkPath != NULL);
@@ -299,14 +256,14 @@
     NSEnumerator *nse = [lines objectEnumerator];
     int i = 0;
     while(tmp = [nse nextObject]) {
-        bias1[i] = [tmp floatValue];
+        facegrid_bias1[i] = [tmp floatValue];
         i++;
     }
 
     float* FG_predictions;
     int FG_predictionsLength;
 
-    jpcnn_classify_image_2FC(&FG_predictions, &FG_predictionsLength, 625, 256, weights1, 1, 256, bias1, 1, 625, facegrid_input, 256, 128, weights2, 1, 128, bias2);
+    jpcnn_classify_image_2FC(&FG_predictions, &FG_predictionsLength, 625, 256, facegrid_weights1, 1, 256, facegrid_bias1, 1, 625, facegrid_input, 256, 128, facegrid_weights2, 1, 128, facegrid_bias2);
     
     // END: FACEGRID
     
@@ -327,7 +284,7 @@
     float* eyes_predictions;
     int eyes_predictionsLength;
     
-    jpcnn_concat_eyes(&eyes_predictions, &eyes_predictionsLength, 256, 128, eyes_weights1, 1, 128, eyes_bias1, 1, 256, LE_predictions, RE_predictions, eyes_debug_input);
+    jpcnn_concat_eyes(&eyes_predictions, &eyes_predictionsLength, 256, 128, eyes_weights1, 1, 128, eyes_bias1, 1, 256, LE_predictions, RE_predictions);
     
     // END: EYES CONCAT
 
@@ -342,14 +299,37 @@
     CGPoint pp = CGPointMake(final_predictions[0], final_predictions[1]);
 //    CGPoint pp = CGPointMake(final_predictions[0], final_predictions[1]*1.8);
     
-//    free(weights1);
-//    free(final_weights1);
-    
     jpcnn_destroy_network(face_network);
     jpcnn_destroy_network(left_eye_network);
     jpcnn_destroy_network(right_eye_network);
     return pp;
     // END: FINAL CONCAT
+}
+
+- (void) printIntermediates: (float*) predictions a:(int) predictionsLength {
+    for (int index = 0; index < predictionsLength; index += 1) {
+        const float predictionValue = predictions[index];
+        NSString* predictionLine = [NSString stringWithFormat: @"%0.2f\n", predictionValue];
+        NSLog(@"%@", predictionLine);
+    }
+    
+}
+
+- (float*) classifyNtwk: (int)inputSize a:(void*) inputImage b:(NSString*) ntwkFileName c:(NSString*) directory {
+    NSString* networkPath = [[NSBundle mainBundle] pathForResource:ntwkFileName ofType:@"ntwk" inDirectory:directory];
+    assert(networkPath != NULL);
+    void* network = jpcnn_create_network(inputSize, [networkPath UTF8String]);
+    assert(network != NULL);
+    
+    float* predictions;
+    int predictionsLength;
+    char** predictionsLabels;
+    int predictionsLabelsLength;
+    jpcnn_classify_image(inputSize, network, inputImage, 0, 0, &predictions, &predictionsLength, &predictionsLabels, &predictionsLabelsLength);
+    
+    jpcnn_destroy_image_buffer(inputImage);
+    //    jpcnn_destroy_network(network);
+    return predictions;
 }
 @end
 
