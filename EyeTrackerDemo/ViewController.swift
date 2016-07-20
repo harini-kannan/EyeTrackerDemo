@@ -51,7 +51,7 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
     let circleRadius = CGFloat(25)
     
     var newPosition: CGPoint?
-    let neuralNet = TestNtwkFile()
+    let neuralNet = NeuralNetwork()
     
     // From: http://iosdevcenters.blogspot.com/2015/12/how-to-resize-image-in-swift-in-ios.html
     func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {

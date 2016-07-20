@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <DeepBelief/DeepBelief.h>
 #import <UIKit/UIKit.h>
-#import "TestNtwkFile.h"
+#import "NeuralNetwork.h"
 
-@implementation TestNtwkFile {
+@implementation NeuralNetwork {
     
     NSString* directory_name;
     bool debug;
