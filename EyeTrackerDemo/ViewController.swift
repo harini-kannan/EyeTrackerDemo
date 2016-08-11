@@ -494,7 +494,6 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
         circleTimer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: Selector("moveToPositionWithTimer"), userInfo: nil, repeats: true)
     }
 
-
     func moveToPositionWithTimer() {
         if self.newPosition != nil {
             self.redLayer.position = self.newPosition!
@@ -502,8 +501,6 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
             self.redLayer.position = CGPoint(x: 100,y: 100)
         }
     }
-    
-
 }
 
 
