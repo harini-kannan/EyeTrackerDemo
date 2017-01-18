@@ -8,9 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		03C4E9721BB5FC4EA2A6E154 /* libPods-EyeTrackerDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8276464BE9067ED644EEBF82 /* libPods-EyeTrackerDemo.a */; };
-		8712132D1C9BD2FE006D04A1 /* righteye_219FC.ntwk in Resources */ = {isa = PBXBuildFile; fileRef = 8712132B1C9BD2FE006D04A1 /* righteye_219FC.ntwk */; };
 		8712132E1C9BD2FE006D04A1 /* test_right_eye219.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8712132C1C9BD2FE006D04A1 /* test_right_eye219.jpg */; };
-		871213311C9BE42F006D04A1 /* face_219FC.ntwk in Resources */ = {isa = PBXBuildFile; fileRef = 8712132F1C9BE42F006D04A1 /* face_219FC.ntwk */; };
 		871213321C9BE42F006D04A1 /* test_face219.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 871213301C9BE42F006D04A1 /* test_face219.jpg */; };
 		871213371C9E7F95006D04A1 /* facegrid_input.txt in Resources */ = {isa = PBXBuildFile; fileRef = 871213341C9E7F95006D04A1 /* facegrid_input.txt */; };
 		8712133E1C9F90C9006D04A1 /* test_facegrid_sunday.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8712133D1C9F90C9006D04A1 /* test_facegrid_sunday.txt */; };
@@ -30,11 +28,9 @@
 		8774943C1C7A4FFE00255376 /* UIImage+OpenCV.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8774943B1C7A4FFE00255376 /* UIImage+OpenCV.mm */; };
 		8780E3211C95406F005940C5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8780E3201C95406F005940C5 /* Accelerate.framework */; };
 		8780E3231C9540BC005940C5 /* libc++.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8780E3221C9540BC005940C5 /* libc++.1.dylib */; };
-		8780E3261C954296005940C5 /* TestNtwkFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 8780E3251C954296005940C5 /* TestNtwkFile.m */; };
 		8780E3281C95449C005940C5 /* cifar10_1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8780E3271C95449C005940C5 /* cifar10_1.jpg */; };
 		8780E32A1C954504005940C5 /* cifar10_quick.ntwk in Resources */ = {isa = PBXBuildFile; fileRef = 8780E3291C954504005940C5 /* cifar10_quick.ntwk */; };
 		8780E32E1C995FA2005940C5 /* DeepBelief.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8780E31E1C953BE5005940C5 /* DeepBelief.framework */; };
-		8780E3301C9A6B50005940C5 /* lefteye_219FC.ntwk in Resources */ = {isa = PBXBuildFile; fileRef = 8780E32F1C9A6B50005940C5 /* lefteye_219FC.ntwk */; };
 		8780E3321C9A7ED8005940C5 /* test_left_eye219.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8780E3311C9A7ED8005940C5 /* test_left_eye219.jpg */; };
 		87B069D41CD165C7004D13E3 /* DarkKnowledge in Resources */ = {isa = PBXBuildFile; fileRef = 87B069D31CD165C6004D13E3 /* DarkKnowledge */; };
 		87B41EB81C7A8460006C5CB2 /* haarcascade_eye.xml in Resources */ = {isa = PBXBuildFile; fileRef = 87B41EB71C7A8460006C5CB2 /* haarcascade_eye.xml */; };
@@ -43,6 +39,7 @@
 		87BE31A71C790E500002C597 /* FPSQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BE31A61C790E500002C597 /* FPSQueue.swift */; };
 		87BE31AD1C7A45FD0002C597 /* CVEyeDetector.mm in Sources */ = {isa = PBXBuildFile; fileRef = 87BE31AB1C7A45FD0002C597 /* CVEyeDetector.mm */; };
 		87BE31AE1C7A45FD0002C597 /* KalmanFilter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 87BE31AC1C7A45FD0002C597 /* KalmanFilter.mm */; };
+		87CD0D781E2F5A9F007064CA /* NeuralNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CD0D771E2F5A9F007064CA /* NeuralNetwork.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,9 +55,7 @@
 /* Begin PBXFileReference section */
 		50C2043E74C39FE5EB60CC4B /* Pods-EyeTrackerDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EyeTrackerDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-EyeTrackerDemo/Pods-EyeTrackerDemo.release.xcconfig"; sourceTree = "<group>"; };
 		8276464BE9067ED644EEBF82 /* libPods-EyeTrackerDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EyeTrackerDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		8712132B1C9BD2FE006D04A1 /* righteye_219FC.ntwk */ = {isa = PBXFileReference; lastKnownFileType = file; path = righteye_219FC.ntwk; sourceTree = "<group>"; };
 		8712132C1C9BD2FE006D04A1 /* test_right_eye219.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = test_right_eye219.jpg; sourceTree = "<group>"; };
-		8712132F1C9BE42F006D04A1 /* face_219FC.ntwk */ = {isa = PBXFileReference; lastKnownFileType = file; path = face_219FC.ntwk; sourceTree = "<group>"; };
 		871213301C9BE42F006D04A1 /* test_face219.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = test_face219.jpg; sourceTree = "<group>"; };
 		871213341C9E7F95006D04A1 /* facegrid_input.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = facegrid_input.txt; sourceTree = "<group>"; };
 		8712133D1C9F90C9006D04A1 /* test_facegrid_sunday.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test_facegrid_sunday.txt; sourceTree = "<group>"; };
@@ -86,11 +81,8 @@
 		8780E31E1C953BE5005940C5 /* DeepBelief.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DeepBelief.framework; path = "../../../Library/Developer/Xcode/DerivedData/jpcnn-gthptnnkabytlweurlxdsliyflqb/Build/Products/Debug-iphoneos/DeepBelief.framework"; sourceTree = "<group>"; };
 		8780E3201C95406F005940C5 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		8780E3221C9540BC005940C5 /* libc++.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.1.dylib"; path = "../../../../../usr/lib/libc++.1.dylib"; sourceTree = "<group>"; };
-		8780E3241C954296005940C5 /* TestNtwkFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestNtwkFile.h; sourceTree = "<group>"; };
-		8780E3251C954296005940C5 /* TestNtwkFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestNtwkFile.m; sourceTree = "<group>"; };
 		8780E3271C95449C005940C5 /* cifar10_1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cifar10_1.jpg; sourceTree = "<group>"; };
 		8780E3291C954504005940C5 /* cifar10_quick.ntwk */ = {isa = PBXFileReference; lastKnownFileType = file; path = cifar10_quick.ntwk; sourceTree = "<group>"; };
-		8780E32F1C9A6B50005940C5 /* lefteye_219FC.ntwk */ = {isa = PBXFileReference; lastKnownFileType = file; path = lefteye_219FC.ntwk; sourceTree = "<group>"; };
 		8780E3311C9A7ED8005940C5 /* test_left_eye219.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = test_left_eye219.jpg; sourceTree = "<group>"; };
 		87B069D31CD165C6004D13E3 /* DarkKnowledge */ = {isa = PBXFileReference; lastKnownFileType = folder; path = DarkKnowledge; sourceTree = "<group>"; };
 		87B41EB71C7A8460006C5CB2 /* haarcascade_eye.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = haarcascade_eye.xml; path = EyeTrackerDemo/haarcascade_eye.xml; sourceTree = "<group>"; };
@@ -103,6 +95,8 @@
 		87BE31AA1C790EB80002C597 /* CVEyeDetector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CVEyeDetector.h; sourceTree = "<group>"; };
 		87BE31AB1C7A45FD0002C597 /* CVEyeDetector.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CVEyeDetector.mm; sourceTree = "<group>"; };
 		87BE31AC1C7A45FD0002C597 /* KalmanFilter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = KalmanFilter.mm; sourceTree = "<group>"; };
+		87CD0D771E2F5A9F007064CA /* NeuralNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NeuralNetwork.m; sourceTree = "<group>"; };
+		87CD0D791E2F5AA4007064CA /* NeuralNetwork.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NeuralNetwork.h; sourceTree = "<group>"; };
 		95B4DD8AC7AAF82C75014B79 /* Pods-EyeTrackerDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EyeTrackerDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EyeTrackerDemo/Pods-EyeTrackerDemo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -172,16 +166,14 @@
 		875AF21A1C769116005FE004 /* EyeTrackerDemo */ = {
 			isa = PBXGroup;
 			children = (
+				87CD0D791E2F5AA4007064CA /* NeuralNetwork.h */,
+				87CD0D771E2F5A9F007064CA /* NeuralNetwork.m */,
 				87271C2D1CFCD24C00D729C9 /* iPhoneVertical */,
-				8780E32F1C9A6B50005940C5 /* lefteye_219FC.ntwk */,
-				8780E3241C954296005940C5 /* TestNtwkFile.h */,
-				8780E3251C954296005940C5 /* TestNtwkFile.m */,
 				873B4BAD1CC69FAC002CE916 /* gazecapture789 */,
 				87B991F81CA6252A00336E4A /* concat_eyes_input.txt */,
 				87B069D31CD165C6004D13E3 /* DarkKnowledge */,
 				8712133D1C9F90C9006D04A1 /* test_facegrid_sunday.txt */,
 				871213341C9E7F95006D04A1 /* facegrid_input.txt */,
-				8712132F1C9BE42F006D04A1 /* face_219FC.ntwk */,
 				871213301C9BE42F006D04A1 /* test_face219.jpg */,
 				8780E3311C9A7ED8005940C5 /* test_left_eye219.jpg */,
 				8780E3291C954504005940C5 /* cifar10_quick.ntwk */,
@@ -197,7 +189,6 @@
 				875AF21D1C769117005FE004 /* ViewController.swift */,
 				875AF23F1C769A2B005FE004 /* FaceFrame.swift */,
 				875AF23B1C7699BC005FE004 /* EyeCaptureSession.swift */,
-				8712132B1C9BD2FE006D04A1 /* righteye_219FC.ntwk */,
 				8712132C1C9BD2FE006D04A1 /* test_right_eye219.jpg */,
 				875AF23D1C7699F9005FE004 /* EyeCaptureSessionDelegate.swift */,
 				875AF21F1C769117005FE004 /* Main.storyboard */,
@@ -313,10 +304,7 @@
 				873B4BAE1CC69FAC002CE916 /* gazecapture789 in Resources */,
 				871213321C9BE42F006D04A1 /* test_face219.jpg in Resources */,
 				8780E3281C95449C005940C5 /* cifar10_1.jpg in Resources */,
-				871213311C9BE42F006D04A1 /* face_219FC.ntwk in Resources */,
-				8712132D1C9BD2FE006D04A1 /* righteye_219FC.ntwk in Resources */,
 				8712132E1C9BD2FE006D04A1 /* test_right_eye219.jpg in Resources */,
-				8780E3301C9A6B50005940C5 /* lefteye_219FC.ntwk in Resources */,
 				8780E3321C9A7ED8005940C5 /* test_left_eye219.jpg in Resources */,
 				875AF2261C769117005FE004 /* LaunchScreen.storyboard in Resources */,
 				875AF2231C769117005FE004 /* Assets.xcassets in Resources */,
@@ -391,13 +379,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				87CD0D781E2F5A9F007064CA /* NeuralNetwork.m in Sources */,
 				875AF23E1C7699F9005FE004 /* EyeCaptureSessionDelegate.swift in Sources */,
 				875AF23C1C7699BC005FE004 /* EyeCaptureSession.swift in Sources */,
 				87BE31AE1C7A45FD0002C597 /* KalmanFilter.mm in Sources */,
 				87BE31AD1C7A45FD0002C597 /* CVEyeDetector.mm in Sources */,
 				8774943C1C7A4FFE00255376 /* UIImage+OpenCV.mm in Sources */,
 				875AF2431C769B2A005FE004 /* CGRect+CoordinateTransforms.swift in Sources */,
-				8780E3261C954296005940C5 /* TestNtwkFile.m in Sources */,
 				87BE31A51C7906EB0002C597 /* OpenCVUtilities.cpp in Sources */,
 				875AF21E1C769117005FE004 /* ViewController.swift in Sources */,
 				875AF2401C769A2B005FE004 /* FaceFrame.swift in Sources */,

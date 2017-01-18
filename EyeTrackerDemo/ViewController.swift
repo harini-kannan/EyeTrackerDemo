@@ -275,7 +275,7 @@ class ViewController: UIViewController, EyeCaptureSessionDelegate {
         let smoothPoint = kalmanFilter.processPoint(toPoint)
         self.newPosition = smoothPoint
         
-        print("Old point is (\(toPoint.x), \(toPoint.y)), and the new point is (\(smoothPoint.x), \(smoothPoint.y))")
+        //print("Old point is (\(toPoint.x), \(toPoint.y)), and the new point is (\(smoothPoint.x), \(smoothPoint.y))")
         
         
     }
